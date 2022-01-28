@@ -2,6 +2,16 @@ body {
     background: black;
     color: white;
 }
+.visible-4 .card-section .holding-elem { display: block; }
+.visible-5 .dice-section .holding-elem { display: block; }
+.holding-elem {
+    display: none;
+    position: fixed;
+    font-size: 4rem;
+    top: 0; /* 다 따로 지정 */
+    left: 0;
+}
+
 .section {
     width: 100vw;
 }
@@ -11,6 +21,11 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+}
+.logo-con {
+    position: absolute;
+    top: 50px;
+    left: 50px;
 }
 .main-svg-con {
     width: 90vw;
@@ -100,6 +115,46 @@ body {
     background-repeat: no-repeat;
 }
 
+.dice-section {
+}
+.dice-space {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10vw;
+}
+.dice {
+
+}
+.dice-shape {
+    width: 100px;
+    height: 100px;
+    border: 1px solid white;
+}
+.dice-shape.dice-front {
+
+}
+.dice-shape.dice-behind {
+
+}
+.dice-shape.dice-top {
+
+}
+.dice-shape.dice-bottom {
+
+}
+.dice-shape.dice-right {
+
+}
+.dice-shape.dice-left {
+
+}
+.dice-text {
+}
+.field{
+    height: 20vh;
+    background: linear-gradient(0, #555, black);
+}
 @media (max-width: 820px){
     .gallery-con {
         flex-flow: row wrap;
