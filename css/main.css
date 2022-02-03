@@ -1,6 +1,7 @@
 body {
     background: black;
     color: white;
+    font-family: ‘SUIT’, sans-serif;
 }
 #visible-4 .card-section .holding-elem { display: block; }
 #visible-5 .dice-section .holding-elem { display: block; }
