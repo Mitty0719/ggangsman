@@ -84,6 +84,35 @@
         
         playAnimation();
     }
+    const test = document.querySelector('.timer-day');
+    const test2 = document.querySelector('.timer-time');
+    typeText(test);
+    typeText(test2);
+    function typeText(textDOM){
+        const realText = textDOM.innerText.split('');
+        let textCnt = 0;
+
+        const typeId = setInterval(()=>{
+            const junkText = [];
+            let junkChar;
+            for(let i = 0; i < textCnt; i++){
+                junkText.push(realText[i]);
+            }
+            for(let i = textCnt; i < realText.length; i++){
+                junkChar = String.fromCharCode(Math.random() * 57 + 65);
+                junkText.push(junkChar);
+            }
+            textDOM.innerText = junkText.join('');
+        }, 80);
+
+        const cntId = setInterval(()=>{
+            textCnt++;
+            if(textCnt > realText.length){
+                clearInterval(typeId);
+                clearInterval(cntId);
+            }
+        }, 240);
+    }
 
     window.addEventListener('scroll', ()=>{
         checkScroll();
