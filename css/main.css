@@ -2,8 +2,8 @@ body {
     background: black;
     color: white;
 }
-.visible-4 .card-section .holding-elem { display: block; }
-.visible-5 .dice-section .holding-elem { display: block; }
+#visible-4 .card-section .holding-elem { display: block; }
+#visible-5 .dice-section .holding-elem { display: block; }
 .holding-elem {
     display: none;
     position: fixed;
