@@ -67,6 +67,23 @@ body {
 .text-content .content .content-cursor {
     animation: content-cursor-ani 0.6s infinite alternate;
 }
+.text-auto-con{
+    margin-bottom: 15px;
+}
+.text-auto{
+    display: inline;
+    padding: 5px;
+    border: #333 solid 3px;
+    border-radius: 40px;
+    font-weight: 700;
+    color: #333;
+    transition-duration: 1s;
+    cursor: pointer;
+}
+.text-auto:hover{
+    border: #555 solid 3px;
+    color: #555;
+}
 
 .gallery-section {
 

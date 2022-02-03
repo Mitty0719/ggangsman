@@ -19,7 +19,8 @@
             },
             objs: {
                 textTitle: document.querySelector('.text-content .title'),
-                textContent: document.querySelector('.text-content .content .content-space')
+                textContent: document.querySelector('.text-content .content .content-space'),
+                textAuto: document.querySelector('.text-auto')
             }
         },
         {
@@ -74,6 +75,15 @@
                     // typeText(sectionInfo[1].objs.textContent, true, 20);
                     showContentText = true;
                 }
+                sectionInfo[1].objs.textAuto.addEventListener('click', ()=>{
+                    // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
+                    let autoId = setInterval(()=>{
+                        typeContentText(sectionInfo[1].objs.textContent);
+                        if(currentSection !== 2){
+                            clearInterval(autoId);
+                        }
+                    }, 30);
+                })
                 break;
             case 3:
                 break;
