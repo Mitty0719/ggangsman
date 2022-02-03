@@ -19,7 +19,7 @@
             },
             objs: {
                 textTitle: document.querySelector('.text-content .title'),
-                textContent: document.querySelector('.text-content .content')
+                textContent: document.querySelector('.text-content .content .content-space')
             }
         },
         {
