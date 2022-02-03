@@ -52,10 +52,12 @@ body {
 }
 .text-content .title {
     font-size: 6rem;
+    font-weight: 600;
+    margin-right: 20px;
     float: left;
 }
 .text-content .content {
-    font-size: 2rem;
+    font-size: 1.6rem;
     line-height: 3rem;
 }
 
