@@ -66,7 +66,7 @@
 
             },
             objs: {
-
+                dice: document.querySelector('.dice')
             }
         }
     ];
@@ -165,6 +165,9 @@
 
                 break;
             case 4:
+                sectionInfo[4].objs.dice.addEventListener('click', ()=>{
+                    sectionInfo[4].objs.dice.classList.add('assemble');
+                });
                 break;
         }
         // console.log(currentSection);

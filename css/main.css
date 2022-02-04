@@ -137,36 +137,74 @@ body {
     position: relative;
 }
 .dice-space {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10vw;
+    width: 100%;
+    height: 100vh;
+    perspective: 500px;
+    perspective-origin: center;
 }
 .dice {
-
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
 }
 .dice-shape {
-    width: 100px;
-    height: 10vh;
-    border: 1px solid white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid white;
+    transition-duration: 1s;
 }
-.dice-shape.dice-front {
+.dice-shape.dice-front{
+    transform: translate(-300%, -300%);
+}
+.dice-shape.dice-behind{
+    transform: translate(0%, -300%) translateZ(0);
 
 }
-.dice-shape.dice-behind {
-
+.dice-shape.dice-top{
+    transform: translate(300%, -300%);
+    
 }
-.dice-shape.dice-top {
-
+.dice-shape.dice-bottom{
+    transform: translate(-300%, 300%);
+    
 }
-.dice-shape.dice-bottom {
-
+.dice-shape.dice-right{
+    transform: translate(0%, 300%);
+    
 }
-.dice-shape.dice-right {
-
+.dice-shape.dice-left{
+    transform: translate(300%, 300%);
+    
 }
-.dice-shape.dice-left {
-
+.dice.assemble .dice-shape.dice-front {
+    transform: translate(0, 0);
+}
+.dice.assemble .dice-shape.dice-behind {
+    transform: translate(0, 0);
+    transform: translateZ(-100px);
+}
+.dice.assemble .dice-shape.dice-top {
+    transform: translate(0, 0) rotateX(-90deg);
+    transform-origin: top;
+}
+.dice.assemble .dice-shape.dice-bottom {
+    transform: translate(0, 0) rotateX(90deg);
+    transform-origin: bottom;
+}
+.dice.assemble .dice-shape.dice-right {
+    transform: translate(0, 0) rotateY(-90deg);
+    transform-origin: right;
+}
+.dice.assemble .dice-shape.dice-left {
+    transform: translate(0, 0) rotateY(90deg);
+    transform-origin: left;
 }
 .dice-text {
 }
