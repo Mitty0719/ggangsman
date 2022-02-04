@@ -3,8 +3,8 @@ body {
     color: white;
     font-family: ‘SUIT’, sans-serif;
 }
-#visible-4 .card-section .holding-elem { display: block; }
-#visible-5 .dice-section .holding-elem { display: block; }
+#visible-3 .card-section .holding-elem { display: block; }
+#visible-4 .dice-section .holding-elem { display: block; }
 .holding-elem {
     display: none;
     position: fixed;
@@ -118,7 +118,6 @@ body {
 }
 
 .card-section {
-    
 }
 .card-content {
     display: flex;
@@ -126,12 +125,14 @@ body {
     padding: 10vw;
 }
 .card-text-con {
-    width: 50%;
+    /* width: 50%; */
 }
 .card-text-con .card-text {
-    padding: 20vw 0;
+    top: 50%;
+    left: 25%;
     font-size: 3rem;
     text-align: center;
+    transform:translate(-50%, -50%);
 }
 .card-img-con {
     width: 40vw;

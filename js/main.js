@@ -3,6 +3,7 @@
         {
             sectionNum: 0,
             screenHeight: 0,
+            screenRatio: 1,
             values: {
 
             },
@@ -14,6 +15,7 @@
         {
             sectionNum: 1,
             screenHeight: 0,
+            screenRatio: 1,
             values: {
 
             },
@@ -26,6 +28,7 @@
         {
             sectionNum: 2,
             screenHeight: 0,
+            screenRatio: 1,
             values: {
 
             },
@@ -36,6 +39,7 @@
         {
             sectionNum: 3,
             screenHeight: 0,
+            screenRatio: 3,
             values: {
 
             },
@@ -46,6 +50,7 @@
         {
             sectionNum: 4,
             screenHeight: 0,
+            screenRatio: 1,
             values: {
 
             },
@@ -55,7 +60,7 @@
         }
     ];
     let currentY = 0; // window.pageYOffset
-    let currentSection = 0; // 현재 section
+    let currentSection = -1; // 현재 section
     let prevSectionHeight = 0; // 이전 section 높이 합
     let enteringSection = true; // section 진입 여부
     let showContentText = false; // textSection content 표시여부
@@ -64,13 +69,13 @@
 
     function playAnimation(){
         switch(currentSection){
-            case 1:
+            case 0:
                 if(enteringSection){
                     typeText(sectionInfo[0].objs.timerDay);
                     typeText(sectionInfo[0].objs.timerTime);
                 }
                 break;
-            case 2:
+            case 1:
                 if(enteringSection && !showContentText){
                     // typeText(sectionInfo[1].objs.textContent, true, 20);
                     showContentText = true;
@@ -79,22 +84,24 @@
                     // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
                     let autoId = setInterval(()=>{
                         typeContentText(sectionInfo[1].objs.textContent);
-                        if(currentSection !== 2){
+                        if(currentSection !== 1){
                             clearInterval(autoId);
                         }
                     }, 30);
                 })
                 break;
+            case 2:
+                break;
             case 3:
+                if(prevSectionHeight < currentY){
+                    console.log('hi');
+                }
                 break;
             case 4:
-                break;
-            case 5:
                 break;
         }
         // console.log(currentSection);
     }
-
 
     function setLayout(){
         // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
@@ -103,17 +110,19 @@
 
         const contentSection = document.querySelectorAll('.content-section');
         for(let i = 0; i < sectionInfo.length; i++){
-            sectionInfo[i].screenHeight = contentSection[i].clientHeight;
+            sectionInfo[i].screenHeight = contentSection[i].clientHeight * sectionInfo[i].screenRatio;
+            contentSection[i].style.height = sectionInfo[i].screenHeight + 'px';
             // console.log(sectionInfo[i].screenHeight);
         }
     }
-    function checkScroll(){
+    function checkScroll(){ // scroll Loop
         prevSectionHeight = 0;
         currentY = window.pageYOffset;
         enteringSection = true;
 
         for(let i = 0; i <= sectionInfo.length; i++){
-            if(currentY < prevSectionHeight){
+            if(currentY < prevSectionHeight + sectionInfo[i].screenHeight){
+                // console.log(currentSection, i);
                 if(currentSection === i){
                     enteringSection = false;
                 } else {
@@ -123,6 +132,7 @@
             }
             prevSectionHeight += sectionInfo[i].screenHeight;
         }
+        // console.log(currentSection);
         document.body.setAttribute('id', `visible-${currentSection}`);
         
         playAnimation();
@@ -184,7 +194,7 @@
         
     })
     window.addEventListener('keydown', ()=>{
-        if(currentSection === 2){
+        if(currentSection === 1){
             typeContentText(sectionInfo[1].objs.textContent);
         }
     })
