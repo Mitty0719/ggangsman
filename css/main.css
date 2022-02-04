@@ -5,13 +5,6 @@ body {
 }
 #visible-3 .card-section .holding-elem { display: block; }
 #visible-4 .dice-section .holding-elem { display: block; }
-.holding-elem {
-    display: none;
-    position: fixed;
-    font-size: 4rem;
-    top: 0; /* 다 따로 지정 */
-    left: 0;
-}
 
 .section {
     width: 100vw;
@@ -118,25 +111,21 @@ body {
 }
 
 .card-section {
+    position: relative;
 }
-.card-content {
-    display: flex;
-    justify-content: space-between;
-    padding: 10vw;
-}
-.card-text-con {
-    /* width: 50%; */
-}
-.card-text-con .card-text {
-    top: 50%;
-    left: 25%;
+.card-text {
     font-size: 3rem;
     text-align: center;
-    transform:translate(-50%, -50%);
+    left: 25%;
+    transform: translateX(-50%);
 }
 .card-img-con {
+    position: absolute;
     width: 40vw;
     height: 60vw;
+    top: 100px;
+    left: 75%;
+    transform: translateX(-50%);
     background-image: url('../src/images/sample.png');
     background-position: center;
     background-size: cover;
@@ -156,7 +145,7 @@ body {
 }
 .dice-shape {
     width: 100px;
-    height: 100px;
+    height: 10vh;
     border: 1px solid white;
 }
 .dice-shape.dice-front {
@@ -182,6 +171,15 @@ body {
 .field{
     height: 20vh;
     background: linear-gradient(0, #555, black);
+}
+
+
+.holding-elem {
+    display: none;
+    position: fixed !important;
+    font-size: 4rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 @media (max-width: 820px){
     .gallery-con {
