@@ -114,16 +114,17 @@ body {
     position: relative;
 }
 .card-text {
+    left: 25%;
     font-size: 3rem;
     text-align: center;
-    left: 25%;
     transform: translateX(-50%);
+    opacity: 0;
 }
 .card-img-con {
     position: absolute;
     width: 40vw;
     height: 60vw;
-    top: 100px;
+    top: 500px;
     left: 75%;
     transform: translateX(-50%);
     background-image: url('../src/images/sample.png');
@@ -133,6 +134,7 @@ body {
 }
 
 .dice-section {
+    position: relative;
 }
 .dice-space {
     display:flex;
@@ -169,6 +171,10 @@ body {
 .dice-text {
 }
 .field{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     height: 20vh;
     background: linear-gradient(0, #555, black);
 }

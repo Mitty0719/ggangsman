@@ -17,7 +17,6 @@
             screenHeight: 0,
             screenRatio: 1,
             values: {
-
             },
             objs: {
                 textTitle: document.querySelector('.text-content .title'),
@@ -39,18 +38,30 @@
         {
             sectionNum: 3,
             screenHeight: 0,
-            screenRatio: 3,
+            screenRatio: 5,
             values: {
-                cardImgCon_opacity_out: [0, 1, {start: 0.8, end: 0.9}],
+                cardText1_opacity_in: [0, 1, {start: 0.01, end: 0.09}],
+                cardText1_opacity_out: [1, 0, {start: 0.11, end: 0.19}],
+                cardText2_opacity_in: [0, 1, {start: 0.2, end: 0.29}],
+                cardText2_opacity_out: [1, 0, {start: 0.31, end: 0.39}],
+                cardText3_opacity_in: [0, 1, {start: 0.4, end: 0.49}],
+                cardText3_opacity_out: [1, 0, {start: 0.51, end: 0.59}],
+                cardText4_opacity_in: [0, 1, {start: 0.6, end: 0.69}],
+                cardText4_opacity_out: [1, 0, {start: 0.71, end: 0.79}],
+                cardImgCon_opacity_out: [1, 0, {start: 0.71, end: 0.79}]
             },
             objs: {
-                cardImgCon: document.querySelector('.card-img-con')
+                cardImgCon: document.querySelector('.card-img-con'),
+                cardText1: document.querySelector('.card-text-1'),
+                cardText2: document.querySelector('.card-text-2'),
+                cardText3: document.querySelector('.card-text-3'),
+                cardText4: document.querySelector('.card-text-4'),
             }
         },
         {
             sectionNum: 4,
             screenHeight: 0,
-            screenRatio: 1,
+            screenRatio: 3,
             values: {
 
             },
@@ -81,7 +92,30 @@
         }
     }
 
+    function calcAnimationValues(values, currentYOffset){
+        let value; // return value
+        let sectionHeight = sectionInfo[currentSection].screenHeight;
+
+        let partScrollStart = sectionHeight * values[2].start;
+        let partScrollEnd = sectionHeight * values[2].end;
+        let partScrollHeight = partScrollEnd - partScrollStart;
+        let sectionScrollRatio = currentYOffset - prevSectionHeight / sectionHeight;
+
+        if(sectionScrollRatio >= partScrollStart && sectionScrollRatio <= partScrollEnd){
+            value = (currentYOffset - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+        }else if(sectionScrollRatio < partScrollStart){
+            value = values[0];
+        }else if(sectionScrollRatio > partScrollEnd){
+            value = values[1];
+        }
+
+        return value;
+    }
     function playAnimation(){
+
+        let currentYOffset = currentY - prevSectionHeight;
+        let currentRatio = currentYOffset / sectionInfo[currentSection].screenHeight;
+
         switch(currentSection){
             case 0:
                 if(enteringSection){
@@ -107,12 +141,28 @@
             case 2:
                 break;
             case 3:
-                if((prevSectionHeight + (100 - (window.innerHeight - sectionInfo[3].objs.cardImgCon.clientHeight) / 2)) < currentY){
+                if((prevSectionHeight + (500 - (window.innerHeight - sectionInfo[3].objs.cardImgCon.clientHeight) / 2)) < currentY){
                     sectionInfo[3].objs.cardImgCon.classList.add('holding-elem');
+                }else{
+                    sectionInfo[3].objs.cardImgCon.classList.remove('holding-elem');
                 }
-                // if(currentY > prevSectionHeight){
-                //     sectionInfo[3].objs.cardImgCon.classList.remove('holding-elem');
-                // }
+                if(currentRatio <= 0.1){
+                    sectionInfo[3].objs.cardText1.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText1_opacity_in, currentYOffset);
+                }else if(currentRatio <= 0.3){
+                    sectionInfo[3].objs.cardText1.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText1_opacity_out, currentYOffset);
+                    sectionInfo[3].objs.cardText2.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText2_opacity_in, currentYOffset);
+                }else if(currentRatio <= 0.5){
+                    sectionInfo[3].objs.cardText2.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText2_opacity_out, currentYOffset);
+                    sectionInfo[3].objs.cardText3.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText3_opacity_in, currentYOffset);
+                }else if(currentRatio <= 0.7){
+                    sectionInfo[3].objs.cardText3.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText3_opacity_out, currentYOffset);
+                    sectionInfo[3].objs.cardText4.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText4_opacity_in, currentYOffset);
+                }else{
+                    sectionInfo[3].objs.cardText4.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText4_opacity_out, currentYOffset);
+                    sectionInfo[3].objs.cardImgCon.style.opacity = calcAnimationValues(sectionInfo[3].values.cardImgCon_opacity_out, currentYOffset);
+
+                }
+
                 break;
             case 4:
                 break;
