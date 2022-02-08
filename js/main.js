@@ -61,11 +61,13 @@
         {
             sectionNum: 4,
             screenHeight: 0,
-            screenRatio: 3,
+            screenRatio: 1,
             values: {
 
             },
             objs: {
+                diceBackground: document.querySelector('.dice-background'),
+                diceSpace: document.querySelector('.dice-space'),
                 dice: document.querySelector('.dice'),
                 diceShape: document.querySelectorAll('.dice-shape'),
                 diceFront: document.querySelector('.dice-front'),
@@ -97,6 +99,7 @@
             contentSection[i].style.height = sectionInfo[i].screenHeight + 'px';
             // console.log(sectionInfo[i].screenHeight);
         }
+        sectionInfo[4].objs.diceBackground.style.height = sectionInfo[4].screenHeight * 5 + 'px';
     }
 
     function calcAnimationValues(values, currentYOffset){
@@ -122,12 +125,14 @@
 
         let currentYOffset = currentY - prevSectionHeight;
         let currentRatio = currentYOffset / sectionInfo[currentSection].screenHeight;
+        const objs = sectionInfo[currentSection].objs;
+        const values = sectionInfo[currentSection].values;
 
         switch(currentSection){
             case 0:
                 if(enteringSection){
-                    typeText(sectionInfo[0].objs.timerDay);
-                    typeText(sectionInfo[0].objs.timerTime);
+                    typeText(objs.timerDay);
+                    typeText(objs.timerTime);
                 }
                 break;
             case 1:
@@ -135,10 +140,10 @@
                     // typeText(sectionInfo[1].objs.textContent, true, 20);
                     showContentText = true;
                 }
-                sectionInfo[1].objs.textAuto.addEventListener('click', ()=>{
+                objs.textAuto.addEventListener('click', ()=>{
                     // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
                     let autoId = setInterval(()=>{
-                        typeContentText(sectionInfo[1].objs.textContent);
+                        typeContentText(objs.textContent);
                         if(currentSection !== 1){
                             clearInterval(autoId);
                         }
@@ -148,53 +153,62 @@
             case 2:
                 break;
             case 3:
-                if((prevSectionHeight + (500 - (window.innerHeight - sectionInfo[3].objs.cardImgCon.clientHeight) / 2)) < currentY){
-                    sectionInfo[3].objs.cardImgCon.classList.add('holding-elem');
+                if((prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < currentY){
+                    objs.cardImgCon.classList.add('holding-elem');
                 }else{
-                    sectionInfo[3].objs.cardImgCon.classList.remove('holding-elem');
+                    objs.cardImgCon.classList.remove('holding-elem');
                 }
                 if(currentRatio <= 0.1){
-                    sectionInfo[3].objs.cardText1.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText1_opacity_in, currentYOffset);
+                    objs.cardText1.style.opacity = calcAnimationValues(values.cardText1_opacity_in, currentYOffset);
                 }else if(currentRatio <= 0.3){
-                    sectionInfo[3].objs.cardText1.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText1_opacity_out, currentYOffset);
-                    sectionInfo[3].objs.cardText2.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText2_opacity_in, currentYOffset);
+                    objs.cardText1.style.opacity = calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
+                    objs.cardText2.style.opacity = calcAnimationValues(values.cardText2_opacity_in, currentYOffset);
                 }else if(currentRatio <= 0.5){
-                    sectionInfo[3].objs.cardText2.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText2_opacity_out, currentYOffset);
-                    sectionInfo[3].objs.cardText3.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText3_opacity_in, currentYOffset);
+                    objs.cardText2.style.opacity = calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
+                    objs.cardText3.style.opacity = calcAnimationValues(values.cardText3_opacity_in, currentYOffset);
                 }else if(currentRatio <= 0.7){
-                    sectionInfo[3].objs.cardText3.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText3_opacity_out, currentYOffset);
-                    sectionInfo[3].objs.cardText4.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText4_opacity_in, currentYOffset);
+                    objs.cardText3.style.opacity = calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
+                    objs.cardText4.style.opacity = calcAnimationValues(values.cardText4_opacity_in, currentYOffset);
                 }else{
-                    sectionInfo[3].objs.cardText4.style.opacity = calcAnimationValues(sectionInfo[3].values.cardText4_opacity_out, currentYOffset);
-                    sectionInfo[3].objs.cardImgCon.style.opacity = calcAnimationValues(sectionInfo[3].values.cardImgCon_opacity_out, currentYOffset);
+                    objs.cardText4.style.opacity = calcAnimationValues(values.cardText4_opacity_out, currentYOffset);
+                    objs.cardImgCon.style.opacity = calcAnimationValues(values.cardImgCon_opacity_out, currentYOffset);
 
                 }
 
                 break;
             case 4:
-                sectionInfo[4].objs.dice.addEventListener('click', (e)=>{
-                    let direction = e.target.classList[1];
-                    switch(direction){
-                        case 'dice-front':
-                            sectionInfo[4].objs.diceFront.classList.add('assemble');
-                            break;
-                        case 'dice-behind':
-                            sectionInfo[4].objs.diceBehind.classList.add('assemble');
-                            break;
-                        case 'dice-top':
-                            sectionInfo[4].objs.diceTop.classList.add('assemble');
-                            break;
-                        case 'dice-bottom':
-                            sectionInfo[4].objs.diceBottom.classList.add('assemble');
-                            break;
-                        case 'dice-right':
-                            sectionInfo[4].objs.diceRight.classList.add('assemble');
-                            break;
-                        case 'dice-left':
-                            sectionInfo[4].objs.diceLeft.classList.add('assemble');
-                            break;
-                    }
-                });
+                if(enteringSection){
+                    objs.dice.addEventListener('click', (e) => {
+                        let direction = e.target.classList[1];
+                        switch(direction){
+                            case 'dice-front':
+                                objs.diceFront.classList.add('assemble');
+                                break;
+                            case 'dice-behind':
+                                objs.diceBehind.classList.add('assemble');
+                                break;
+                            case 'dice-top':
+                                objs.diceTop.classList.add('assemble');
+                                break;
+                            case 'dice-bottom':
+                                objs.diceBottom.classList.add('assemble');
+                                break;
+                            case 'dice-right':
+                                objs.diceRight.classList.add('assemble');
+                                break;
+                            case 'dice-left':
+                                objs.diceLeft.classList.add('assemble');
+                                break;
+                        }
+                    });
+
+                    objs.dice.addEventListener('mouseover', (e) => {
+                        if(e.target.classList.contains('dice-shape')){
+                            let direction = e.target.classList[1].split('-')[1];
+                            objs.diceSpace.setAttribute('data-direction', direction);
+                        }
+                    })
+                }
                 break;
         }
         // console.log(currentSection);

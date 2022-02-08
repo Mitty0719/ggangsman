@@ -135,13 +135,27 @@ body {
 
 .dice-section {
     position: relative;
+    overflow: hidden;
+}
+.dice-background {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 .dice-space {
     width: 100%;
     height: 100vh;
     perspective: 500px;
     perspective-origin: center;
+    transition-duration: 1s;
 }
+.dice-space[data-direction='front']{ background: red }
+.dice-space[data-direction='behind']{ background: blue }
+.dice-space[data-direction='top']{ background: green }
+.dice-space[data-direction='bottom']{ background: yellow }
+.dice-space[data-direction='right']{ background: dodgerblue }
+.dice-space[data-direction='left']{ background: greenyellow }
 .dice {
     position: absolute;
     top: 50%;
@@ -206,14 +220,6 @@ body {
     transform-origin: left;
 }
 .dice-text {
-}
-.field{
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 20vh;
-    background: linear-gradient(0, #555, black);
 }
 
 
