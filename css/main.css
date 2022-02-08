@@ -183,26 +183,25 @@ body {
     transform: translate(300%, 300%);
     
 }
-.dice.assemble .dice-shape.dice-front {
+.dice-shape.dice-front.assemble {
     transform: translate(0, 0);
 }
-.dice.assemble .dice-shape.dice-behind {
-    transform: translate(0, 0);
-    transform: translateZ(-100px);
+.dice-shape.dice-behind.assemble {
+    transform: translate(0, 0) translateZ(-100px);
 }
-.dice.assemble .dice-shape.dice-top {
+.dice-shape.dice-top.assemble {
     transform: translate(0, 0) rotateX(-90deg);
     transform-origin: top;
 }
-.dice.assemble .dice-shape.dice-bottom {
+.dice-shape.dice-bottom.assemble {
     transform: translate(0, 0) rotateX(90deg);
     transform-origin: bottom;
 }
-.dice.assemble .dice-shape.dice-right {
+.dice-shape.dice-right.assemble {
     transform: translate(0, 0) rotateY(-90deg);
     transform-origin: right;
 }
-.dice.assemble .dice-shape.dice-left {
+.dice-shape.dice-left.assemble {
     transform: translate(0, 0) rotateY(90deg);
     transform-origin: left;
 }

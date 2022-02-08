@@ -66,7 +66,14 @@
 
             },
             objs: {
-                dice: document.querySelector('.dice')
+                dice: document.querySelector('.dice'),
+                diceShape: document.querySelectorAll('.dice-shape'),
+                diceFront: document.querySelector('.dice-front'),
+                diceBehind: document.querySelector('.dice-behind'),
+                diceTop: document.querySelector('.dice-top'),
+                diceBottom: document.querySelector('.dice-bottom'),
+                diceRight: document.querySelector('.dice-right'),
+                diceLeft: document.querySelector('.dice-left')
             }
         }
     ];
@@ -165,8 +172,28 @@
 
                 break;
             case 4:
-                sectionInfo[4].objs.dice.addEventListener('click', ()=>{
-                    sectionInfo[4].objs.dice.classList.add('assemble');
+                sectionInfo[4].objs.dice.addEventListener('click', (e)=>{
+                    let direction = e.target.classList[1];
+                    switch(direction){
+                        case 'dice-front':
+                            sectionInfo[4].objs.diceFront.classList.add('assemble');
+                            break;
+                        case 'dice-behind':
+                            sectionInfo[4].objs.diceBehind.classList.add('assemble');
+                            break;
+                        case 'dice-top':
+                            sectionInfo[4].objs.diceTop.classList.add('assemble');
+                            break;
+                        case 'dice-bottom':
+                            sectionInfo[4].objs.diceBottom.classList.add('assemble');
+                            break;
+                        case 'dice-right':
+                            sectionInfo[4].objs.diceRight.classList.add('assemble');
+                            break;
+                        case 'dice-left':
+                            sectionInfo[4].objs.diceLeft.classList.add('assemble');
+                            break;
+                    }
                 });
                 break;
         }
