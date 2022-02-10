@@ -145,6 +145,16 @@ body {
     transition-duration: 7s;
     background: linear-gradient(black, white);
 }
+.dice-background .dice-text {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #333;
+    transform: translate(-50%, -50%);
+}
+.dice-text-1 {top: 40%; left: 25%;}
+.dice-text-2 {top: 50%; left: 75%;}
+.dice-text-3 {top: 60%; left: 25%;}
 .dice-space {
     display: flex;
     align-items: center;
