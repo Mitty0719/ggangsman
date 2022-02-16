@@ -66,18 +66,6 @@
 
             },
             objs: {
-                diceSection: document.querySelector('.dice-section'),
-                diceBackground: document.querySelector('.dice-background'),
-                diceSpace: document.querySelector('.dice-space'),
-                dice: document.querySelector('.dice'),
-                diceShape: document.querySelectorAll('.dice-shape'),
-                diceFront: document.querySelector('.dice-front'),
-                diceBehind: document.querySelector('.dice-behind'),
-                diceTop: document.querySelector('.dice-top'),
-                diceBottom: document.querySelector('.dice-bottom'),
-                diceRight: document.querySelector('.dice-right'),
-                diceLeft: document.querySelector('.dice-left'),
-                throwButton: document.querySelector('.throw-button')
             }
         }
     ];
@@ -101,7 +89,6 @@
             contentSection[i].style.height = sectionInfo[i].screenHeight + 'px';
             // console.log(sectionInfo[i].screenHeight);
         }
-        sectionInfo[4].objs.diceBackground.style.height = sectionInfo[4].screenHeight * 5 + 'px';
     }
 
     function calcAnimationValues(values, currentYOffset){
@@ -180,70 +167,6 @@
                 break;
             case 4:
                 if(enteringSection){
-                    objs.dice.addEventListener('click', (e) => {
-                        let direction = e.target.classList[1];
-                        switch(direction){
-                            case 'dice-front':
-                                objs.diceFront.classList.add('assemble');
-                                break;
-                            case 'dice-behind':
-                                objs.diceBehind.classList.add('assemble');
-                                break;
-                            case 'dice-top':
-                                objs.diceTop.classList.add('assemble');
-                                break;
-                            case 'dice-bottom':
-                                objs.diceBottom.classList.add('assemble');
-                                break;
-                            case 'dice-right':
-                                objs.diceRight.classList.add('assemble');
-                                break;
-                            case 'dice-left':
-                                objs.diceLeft.classList.add('assemble');
-                                break;
-                        }
-
-                        // 모든 주사위가 클릭되었을때
-                        if(document.querySelectorAll('.dice-shape.assemble').length === 6){
-                            objs.throwButton.style.opacity = 1;
-                            objs.diceSpace.removeAttribute('data-direction');
-                            objs.dice.removeEventListener('mouseover', overDiceShape);
-                            objs.dice.removeEventListener('mouseout', outDiceShape);
-                            // 주사위 throw
-                            objs.throwButton.addEventListener('click', throwDice);
-                        }
-
-                    });
-
-                    // objs.dice.addEventListener('mouseover', (e) => {
-                    //     if(e.target.classList.contains('dice-shape')){
-                    //         let direction = e.target.classList[1].split('-')[1];
-                    //         objs.diceSpace.setAttribute('data-direction', direction);
-                    //     }
-                    // })
-                    // objs.dice.addEventListener('mouseout', (e) => {
-                    //     objs.diceSpace.removeAttribute('data-direction');
-                    // })
-                    objs.dice.addEventListener('mouseover', overDiceShape);
-                    objs.dice.addEventListener('mouseout', outDiceShape);
-                }
-
-                function overDiceShape(e){
-                    if(e.target.classList.contains('dice-shape')){
-                        let direction = e.target.classList[1].split('-')[1];
-                        objs.diceSpace.setAttribute('data-direction', direction);
-                    }
-                }
-                function outDiceShape(){
-                    objs.diceSpace.removeAttribute('data-direction');
-                }
-                function throwDice(){
-                    objs.dice.classList.add('throw-dice');
-                    objs.diceBackground.style.top = `-${sectionInfo[4].screenHeight * 4}px`;
-                    objs.throwButton.style.opacity = 0;
-                    objs.throwButton.addEventListener('transitionend', () => {
-                        setTimeout(()=>{objs.throwButton.style.display = 'none'}, 2000);
-                    })
                 }
                 break;
         }
