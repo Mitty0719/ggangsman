@@ -133,6 +133,26 @@ body {
     background-repeat: no-repeat;
 }
 
+/* firecracker-section */
+.firecracker-section{
+  
+}
+.background-con{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(black, #222);
+}
+.background-con .city{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 500px;
+  background-image: url('../src/images/city.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 
 .holding-elem {
