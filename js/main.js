@@ -84,7 +84,6 @@ class App{
     this.canvas = null;
     this.ctx = null;
 
-    this.sampleFire = new Firecracker(this.stageWidth, this.sectionInfo[4].screenHeight);
 
     this.setMainTimer();
     this.setLayout();
@@ -100,6 +99,10 @@ class App{
         this.typeContentText(this.sectionInfo[1].objs.textContent);
       }
     });
+    
+    
+    this.sampleFire = new Firecracker(this.stageWidth, this.sectionInfo[4].screenHeight);
+    requestAnimationFrame(this.animateFirecracker.bind(this));
   }
 
   setLayout(){
@@ -267,7 +270,9 @@ class App{
     }
 
     animateFirecracker(){
-      this.sampleFire.draw();
+      requestAnimationFrame(this.animateFirecracker.bind(this));
+      this.ctx.clearRect(0, 0, this.stageWidth, this.sectionInfo[4].screenHeight);
+      this.sampleFire.draw(this.ctx);
     }
 }
 
