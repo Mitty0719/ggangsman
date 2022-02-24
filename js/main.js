@@ -85,11 +85,15 @@ class App{
     this.canvas = null;
     this.ctx = null;
     this.crackers = new Set();
+    this.airships = [];
 
     this.setMainTimer();
     this.setLayout();
 
-    this.airship = new Airship();
+    // airship 객체 생성
+    for(let i = 0; i < 3; i++){
+      this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+    }
 
     window.addEventListener('scroll', ()=>{
       this.checkScroll();
@@ -200,6 +204,7 @@ class App{
             if(!this.hasEnterCanvas){
               document.addEventListener('click', (e)=>{
                 this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+                this.checkAirshipOut();
               });
               this.hasEnterCanvas = true;
 
@@ -284,11 +289,13 @@ class App{
       requestAnimationFrame(this.animateFirecracker.bind(this));
       this.ctx.clearRect(0, 0, this.stageWidth, this.sectionInfo[4].screenHeight);
       // airship
-      this.airship.draw(this.ctx);
-      for(let cracker of this.crackers.values()){
-        if(cracker.isArrive){
-          this.airship.crash(cracker);
+      for(let i = 0; i < this.airships.length; i++){
+        for(let cracker of this.crackers.values()){
+          if(cracker.isArrive){
+            this.airships[i].crash(cracker);
+          }
         }
+        this.airships[i].draw(this.ctx);
       }
 
       // firecracker
@@ -302,6 +309,20 @@ class App{
         }
       }
 
+    }
+
+    checkAirshipOut(){
+      for(let i = 0; i < this.airships.length; i++){
+        if(this.airships[i].direction === 1){
+          if(this.airships[i].x > this.stageWidth){
+            this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+          }
+        }else{
+          if(this.airships[i].x < 0){
+            this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+          }
+        }
+      }
     }
     
 }
