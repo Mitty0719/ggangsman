@@ -83,6 +83,7 @@ class App{
 
     this.canvas = null;
     this.ctx = null;
+    this.crackers = new Set();
 
 
     this.setMainTimer();
@@ -101,8 +102,7 @@ class App{
     });
     
     
-    this.sampleFire = new Firecracker(this.stageWidth, this.sectionInfo[4].screenHeight);
-    requestAnimationFrame(this.animateFirecracker.bind(this));
+    // this.sampleFire = new Firecracker(this.stageWidth, this.sectionInfo[4].screenHeight);
   }
 
   setLayout(){
@@ -194,6 +194,11 @@ class App{
             this.ctx = this.canvas.getContext('2d');
             this.canvas.width = document.body.clientWidth;
             this.canvas.height = this.sectionInfo[4].screenHeight;
+            requestAnimationFrame(this.animateFirecracker.bind(this));
+
+            document.addEventListener('click', (e)=>{
+              this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+            })
           }
           break;
       }
@@ -272,7 +277,12 @@ class App{
     animateFirecracker(){
       requestAnimationFrame(this.animateFirecracker.bind(this));
       this.ctx.clearRect(0, 0, this.stageWidth, this.sectionInfo[4].screenHeight);
-      this.sampleFire.draw(this.ctx);
+      for(let cracker of this.crackers.values()){
+        cracker.draw(this.ctx);
+        if(cracker.isFinish && cracker.level < 0){
+          this.crackers.delete(cracker);
+        }
+      }
     }
 }
 
