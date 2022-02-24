@@ -1,3 +1,4 @@
+import { Airship } from './module/airship.js';
 import { Firecracker } from './module/firecracker.js';
 class App{
   constructor(){
@@ -85,9 +86,10 @@ class App{
     this.ctx = null;
     this.crackers = new Set();
 
-
     this.setMainTimer();
     this.setLayout();
+
+    this.airship = new Airship();
 
     window.addEventListener('scroll', ()=>{
       this.checkScroll();
@@ -281,6 +283,15 @@ class App{
     animateFirecracker(){
       requestAnimationFrame(this.animateFirecracker.bind(this));
       this.ctx.clearRect(0, 0, this.stageWidth, this.sectionInfo[4].screenHeight);
+      // airship
+      this.airship.draw(this.ctx);
+      for(let cracker of this.crackers.values()){
+        if(cracker.isArrive){
+          this.airship.crash(cracker);
+        }
+      }
+
+      // firecracker
       for(let cracker of this.crackers.values()){
         cracker.draw(this.ctx);
         if(cracker.isFinish && cracker.level < 0){
@@ -290,6 +301,7 @@ class App{
           this.crackers.delete(cracker);
         }
       }
+
     }
     
 }

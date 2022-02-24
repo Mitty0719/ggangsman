@@ -32,8 +32,8 @@ export class Firecracker{
 
     this.isExplode = false;
     this.isFinish = false;
+    this.isArrive = false;
 
-    console.log(this.type);
     if(this.type === 'basic'){
       this.explode = this.explodeBasic;
     }else if(this.type === 'smile'){
@@ -50,10 +50,10 @@ export class Firecracker{
     this.vy = (this.y - this.targetY) / 20; 
     if(this.y - this.targetY < 3){ // 폭죽 펑
       this.explode(ctx);
+      this.isArrive = true;
     } else {
       this.y -= this.vy;
     }
-
 
     ctx.fillRect(this.x, this.y, this.width, this.width);
     ctx.restore();
