@@ -194,11 +194,15 @@ class App{
             this.ctx = this.canvas.getContext('2d');
             this.canvas.width = document.body.clientWidth;
             this.canvas.height = this.sectionInfo[4].screenHeight;
-            requestAnimationFrame(this.animateFirecracker.bind(this));
 
-            document.addEventListener('click', (e)=>{
-              this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
-            })
+            if(!this.hasEnterCanvas){
+              document.addEventListener('click', (e)=>{
+                this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+              });
+              this.hasEnterCanvas = true;
+
+              requestAnimationFrame(this.animateFirecracker.bind(this));
+            }
           }
           break;
       }
@@ -282,8 +286,12 @@ class App{
         if(cracker.isFinish && cracker.level < 0){
           this.crackers.delete(cracker);
         }
+        if(cracker.opacity <= 0){
+          this.crackers.delete(cracker);
+        }
       }
     }
+    
 }
 
 window.onload = () => {
