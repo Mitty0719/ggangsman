@@ -117,10 +117,14 @@ class App{
     window.scrollTo(0, 0);
 
     const contentSection = document.querySelectorAll('.content-section');
+    const loadCon = document.querySelector('.load-con');
     for(let i = 0; i < this.sectionInfo.length; i++){
       this.sectionInfo[i].screenHeight = window.innerHeight * this.sectionInfo[i].screenRatio;
-      contentSection[i].style.height = this.sectionInfo[i].screenHeight + 'px';
+      contentSection[i].style.height = `${this.sectionInfo[i].screenHeight}px`;
     }
+
+    loadCon.style.width = `${this.stageWidth}px`;
+    loadCon.style.height = `${this.sectionInfo[0].screenHeight}px`;
   }
 
     calcAnimationValues(values, currentYOffset){
