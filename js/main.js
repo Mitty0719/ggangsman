@@ -1,6 +1,9 @@
 import { Airship } from './module/airship.js';
 import { Firecracker } from './module/firecracker.js';
 import Data from '../src/data.json' assert { type: 'json' };
+
+const FILTER_TYPE = ['mud','night','purple','candy','gray','clay','mint','cellophane','leaf'];
+
 class App{
   constructor(){
     this.sectionInfo = [
@@ -179,6 +182,7 @@ class App{
           })
           break;
         case 2:
+          objs.galleryCon.addEventListener('mouseover', this.hoverTag.bind(this));
           break;
         case 3:
           if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
@@ -338,12 +342,14 @@ class App{
       for(let i = 0; i < gallery.length; i++){
         const galleryItem = document.createElement('li');
         const imgCon = document.createElement('figure');
+        const filter = document.createElement('div');
         const img = document.createElement('img');
         const tagCon = document.createElement('ul');
 
         galleryItem.classList.add('gallery');
         imgCon.classList.add('img-con');
         tagCon.classList.add('tag-con');
+        filter.classList.add('filter');
         img.src = gallery[i].src;
 
         for(let j = 0; j < gallery[i].tag.length; j++){
@@ -353,20 +359,17 @@ class App{
           tagCon.appendChild(tag);
         }
 
+        imgCon.appendChild(filter);
         imgCon.appendChild(img);
         galleryItem.appendChild(imgCon);
         galleryItem.appendChild(tagCon);
         this.sectionInfo[2].objs.galleryCon.appendChild(galleryItem);
-        // <li class="gallery">
-        //   <figure class="img-con">
-        //     <img src="src/images/sample.png" alt="img"/>
-        //   </figure>
-        //   <ul class="tag-con">
-        //     <li class="tag">#SAMPLE</li>
-        //     <li class="tag">#HAPPY</li>
-        //     <li class="tag">#HAPYYYYY</li>
-        //   </ul>
-        // </li>
+      }
+    }
+    hoverTag(e){
+      if(e.target.classList.contains('tag')){
+        console.log(e.target.parentNode.previousSibling);
+        // 한 갤러리 당 중복안되게 FILTER_TYPE 적용하기
       }
     }
 }
