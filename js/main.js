@@ -57,6 +57,7 @@ class App{
         },
         objs: {
           cardImgCon: document.querySelector('.card-img-con'),
+          flipEffect: document.querySelector('.flip-effect'),
           cardText1: document.querySelector('.card-text-1'),
           cardText2: document.querySelector('.card-text-2'),
           cardText3: document.querySelector('.card-text-3'),
@@ -114,6 +115,7 @@ class App{
 
     // 임시
     this.createGallery();
+    this.devideCardImage();
   }
 
   setLayout(){
@@ -203,6 +205,7 @@ class App{
             objs.cardText4.style.opacity = this.calcAnimationValues(values.cardText4_opacity_out, currentYOffset);
             objs.cardImgCon.style.opacity = this.calcAnimationValues(values.cardImgCon_opacity_out, currentYOffset);
           }
+          
           break;
         case 4:
           if(this.enteringSection){
@@ -385,6 +388,30 @@ class App{
           filter.classList.add(target.getAttribute('data-color'));
         }, 500);
       }
+    }
+    devideCardImage(){
+      const row = 4;
+      const column = 4;
+      const width = 100 / column;
+      const height = 100 / row;
+      const imgWidth = 100 * column;
+      const imgHeight = 100 * row;
+      const flipEffect = this.sectionInfo[3].objs.flipEffect;
+
+      let setStyle = `transform: translate(50px, 50px); opacity: 0;`;
+      let htmlStr = ``;
+      for(let i = 0; i < row; i++){
+        for(let j = 0; j < column; j++){
+          let top = -i * 100;
+          let left = -j * 100;
+          let delaySpeed = ((column - j) - (i * 0.5)) * 0.25;
+
+          htmlStr += `<div class="flip-item" style="${setStyle} width:${width}%; height:${height}%; transition-delay:${delaySpeed}s">`
+          htmlStr += `  <div class="flip-img" style="width:${imgWidth}%; height:${imgHeight}%; top:${top}%; left:${left}%;"></div>`;
+          htmlStr += `</div>`;
+        }
+      }
+      flipEffect.innerHTML = htmlStr;
     }
 }
 
