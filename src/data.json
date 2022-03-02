@@ -4,25 +4,25 @@
     {
       "src": "../src/images/gallery_img1.png",
       "tag": [
-        "HAPPY",
-        "AAA",
-        "BBB"
+        ["사탕", "candy"],
+        ["포도맛", "purple"],
+        ["알록달록", "cellophane"]
       ]
     },
     {
       "src": "../src/images/gallery_img2.png",
       "tag": [
-        "HAPPY",
-        "AAA",
-        "BBB"
+        ["섬광탄", "mint"],
+        ["무드", "clay"],
+        ["나뭇잎", "leaf"]
       ]
     },
     {
       "src": "../src/images/gallery_img3.png",
       "tag": [
-        "HAPPY",
-        "AAA",
-        "BBB"
+        ["흑백", "gray"],
+        ["화성갈끄니까", "night"],
+        ["이모지", "mud"]
       ]
     }
   ],

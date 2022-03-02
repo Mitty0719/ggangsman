@@ -103,21 +103,32 @@ position: relative;
 .gallery .img-con img {
   width: 100%;
 }
-.gallery .img-con .filter {
+.filter {
   position: absolute;
   width: 100%;
   height: 100%;
+  background: rgba(0, 0, 0, 0);
+  mix-blend-mode: normal;
   transition-duration: 1s;
+  opacity: 0;
 }
-.filter.mud { background: rgba(255, 0, 0, 0.5); mix-blend-mode: darken; }
-.filter.night { background: linear-gradient(90deg, rgba(255,0,0,0.5) 0%, rgba(240,64,64,0.5) 25%, rgba(255,207,0,0.5) 100%); mix-blend-mode:hard-light; }
-.filter.purple { background: linear-gradient(90deg, rgba(255,0,251,1) 0%, rgba(133,64,240,1) 25%, rgba(96,28,248,1) 75%, rgba(0,24,255,1) 100%); mix-blend-mode:hue; }
-.filter.candy { background: linear-gradient(90deg, rgba(255,0,251,0.5) 0%, rgba(133,64,240,0.5) 25%, rgba(96,28,248,0.5) 75%, rgba(0,24,255,0.5) 100%); mix-blend-mode:saturation; }
-.filter.gray { background:rgba(0, 0, 0, 1); mix-blend-mode: color; }
-.filter.clay { background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%); mix-blend-mode: soft-light; }
-.filter.mint { background: radial-gradient(circle, rgba(238,174,202,0.8) 0%, rgba(148,187,233,0.8) 100%); mix-blend-mode:screen; }
-.filter.cellophane { background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(29,148,253,1) 50%, rgba(252,176,69,1) 100%); mix-blend-mode: color;}
-.filter.leaf { background: linear-gradient(90deg, rgba(17,112,32,0.5) 0%, rgba(89,189,93,0.5) 50%, rgba(197,232,188,0.5) 100%);  mix-blend-mode: hard-light;}
+.filter.mud { background: rgba(255, 0, 0, 0.5);
+  mix-blend-mode: darken; }
+.filter.night { background: linear-gradient(90deg, rgba(255,0,0,0.5) 0%, rgba(240,64,64,0.5) 25%, rgba(255,207,0,0.5) 100%);
+  mix-blend-mode:hard-light; opacity: 1; }
+.filter.purple { background: linear-gradient(90deg, rgba(255,0,251,1) 0%, rgba(133,64,240,1) 25%, rgba(96,28,248,1) 75%, rgba(0,24,255,1) 100%);
+  mix-blend-mode:hue; opacity: 1; }
+.filter.candy { background: linear-gradient(90deg, rgba(255,0,251,0.5) 0%, rgba(133,64,240,0.5) 25%, rgba(96,28,248,0.5) 75%, rgba(0,24,255,0.5) 100%);
+  mix-blend-mode:saturation; opacity: 1;}
+.filter.gray { background:rgba(0, 0, 0, 1); mix-blend-mode: color; opacity: 1; }
+.filter.clay { background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+  mix-blend-mode: soft-light; opacity: 1; }
+.filter.mint { background: radial-gradient(circle, rgba(238,174,202,0.8) 0%, rgba(148,187,233,0.8) 100%);
+  mix-blend-mode:screen; opacity: 1; }
+.filter.cellophane { background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(29,148,253,1) 50%, rgba(252,176,69,1) 100%);
+  mix-blend-mode: color; opacity: 1;}
+.filter.leaf { background: linear-gradient(90deg, rgba(17,112,32,0.5) 0%, rgba(89,189,93,0.5) 50%, rgba(197,232,188,0.5) 100%);
+  mix-blend-mode: hard-light; opacity: 1;}
 
 
 .gallery .tag-con {
@@ -132,7 +143,7 @@ position: relative;
   border-radius: 20px;
   transition-duration: 1s;
 }
-.gallery .tag-con .tag:hover {
+.gallery .tag-con .tag.selected {
   background: white;
   color: black;
 }

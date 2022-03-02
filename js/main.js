@@ -2,8 +2,6 @@ import { Airship } from './module/airship.js';
 import { Firecracker } from './module/firecracker.js';
 import Data from '../src/data.json' assert { type: 'json' };
 
-const FILTER_TYPE = ['mud','night','purple','candy','gray','clay','mint','cellophane','leaf'];
-
 class App{
   constructor(){
     this.sectionInfo = [
@@ -182,7 +180,7 @@ class App{
           })
           break;
         case 2:
-          objs.galleryCon.addEventListener('mouseover', this.hoverTag.bind(this));
+          objs.galleryCon.addEventListener('click', this.clickGalleryTag.bind(this));
           break;
         case 3:
           if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
@@ -355,7 +353,8 @@ class App{
         for(let j = 0; j < gallery[i].tag.length; j++){
           const tag = document.createElement('li');
           tag.classList.add('tag');
-          tag.innerHTML = `#${gallery[i].tag[j]}`;
+          tag.innerHTML = `#${gallery[i].tag[j][0]}`;
+          tag.setAttribute('data-color', gallery[i].tag[j][1]);
           tagCon.appendChild(tag);
         }
 
@@ -366,10 +365,25 @@ class App{
         this.sectionInfo[2].objs.galleryCon.appendChild(galleryItem);
       }
     }
-    hoverTag(e){
-      if(e.target.classList.contains('tag')){
-        console.log(e.target.parentNode.previousSibling);
-        // 한 갤러리 당 중복안되게 FILTER_TYPE 적용하기
+    clickGalleryTag(e){
+      const target = e.target;
+      if(target.classList.contains('tag')){
+        target.parentNode.childNodes.forEach((tag)=>{
+          tag.classList.remove('selected');
+        })
+        target.classList.add('selected');
+        const filter = target.parentNode.previousSibling.querySelector('.filter');
+        // filter.classList.forEach((name)=>{
+        //   if(name !== 'filter'){
+        //     console.log(name);
+        //     filter.classList.remove(name);
+        //   }
+        // });
+        filter.className = 'filter';
+        
+        setTimeout(()=>{
+          filter.classList.add(target.getAttribute('data-color'));
+        }, 500);
       }
     }
 }
