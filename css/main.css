@@ -122,7 +122,7 @@ body {
   opacity: 0;
 }
 .filter.mud { background: rgba(255, 0, 0, 0.5);
-  mix-blend-mode: darken; }
+  mix-blend-mode: darken; opacity: 1; }
 .filter.night { background: linear-gradient(90deg, rgba(255,0,0,0.5) 0%, rgba(240,64,64,0.5) 25%, rgba(255,207,0,0.5) 100%);
   mix-blend-mode:hard-light; opacity: 1; }
 .filter.purple { background: linear-gradient(90deg, rgba(255,0,251,1) 0%, rgba(133,64,240,1) 25%, rgba(96,28,248,1) 75%, rgba(0,24,255,1) 100%);

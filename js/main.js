@@ -390,14 +390,7 @@ class App{
         })
         target.classList.add('selected');
         const filter = target.parentNode.previousSibling.querySelector('.filter');
-        // filter.classList.forEach((name)=>{
-        //   if(name !== 'filter'){
-        //     console.log(name);
-        //     filter.classList.remove(name);
-        //   }
-        // });
         filter.className = 'filter';
-        
         setTimeout(()=>{
           filter.classList.add(target.getAttribute('data-color'));
         }, 500);

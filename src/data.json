@@ -5,16 +5,16 @@
       "src": "../src/images/gallery_img1.png",
       "tag": [
         ["사탕", "candy"],
-        ["포도맛", "purple"],
-        ["알록달록", "cellophane"]
+        ["라벤더", "purple"],
+        ["레인보우아트", "cellophane"]
       ]
     },
     {
       "src": "../src/images/gallery_img2.png",
       "tag": [
-        ["섬광탄", "mint"],
-        ["무드", "clay"],
-        ["나뭇잎", "leaf"]
+        ["현구클라우드", "mint"],
+        ["스카치", "clay"],
+        ["엽록체", "leaf"]
       ]
     },
     {
@@ -22,7 +22,7 @@
       "tag": [
         ["흑백", "gray"],
         ["화성갈끄니까", "night"],
-        ["이모지", "mud"]
+        ["춘장맛탕후루", "mud"]
       ]
     }
   ],
