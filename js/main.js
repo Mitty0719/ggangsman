@@ -55,6 +55,9 @@ class App{
           cardText2_opacity_out: [1, 0, {start: 0.50, end: 0.66}],
           cardText3_opacity_in: [0, 1, {start: 0.67, end: 0.81}],
           cardText3_opacity_out: [1, 0, {start: 0.83, end: 0.99}],
+          cardSubText1_opacity_in: [0, 1, {start: 0.05, end: 0.15}],
+          cardSubText2_opacity_in: [0, 1, {start: 0.38, end: 0.48}],
+          cardSubText3_opacity_in: [0, 1, {start: 0.71, end: 0.81}],
           cardImgCon_opacity_out: [1, 0, {start: 0.83, end: 0.99}]
         },
         objs: {
@@ -63,7 +66,9 @@ class App{
           cardText1: document.querySelector('.card-text-1'),
           cardText2: document.querySelector('.card-text-2'),
           cardText3: document.querySelector('.card-text-3'),
-          cardText4: document.querySelector('.card-text-4'),
+          cardSubText1: document.querySelector('.card-sub-text-1'),
+          cardSubText2: document.querySelector('.card-sub-text-2'),
+          cardSubText3: document.querySelector('.card-sub-text-3'),
         }
       },
       {
@@ -201,14 +206,20 @@ class App{
           
           if(currentRatio <= 0.16){
             objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_in, currentYOffset);
+            objs.cardSubText1.style.opacity = this.calcAnimationValues(values.cardSubText1_opacity_in, currentYOffset);
           }else if(currentRatio <= 0.49){
             objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
             objs.cardText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_in, currentYOffset);
+            objs.cardSubText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
+            objs.cardSubText2.style.opacity = this.calcAnimationValues(values.cardSubText2_opacity_in, currentYOffset);
           }else if(currentRatio <= 0.82){
             objs.cardText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
             objs.cardText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_in, currentYOffset);
+            objs.cardSubText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
+            objs.cardSubText3.style.opacity = this.calcAnimationValues(values.cardSubText3_opacity_in, currentYOffset);
           }else{
             objs.cardText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
+            objs.cardSubText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
             objs.cardImgCon.style.opacity = this.calcAnimationValues(values.cardImgCon_opacity_out, currentYOffset);
           }
 
@@ -226,6 +237,8 @@ class App{
             objs.flipEffect.style.backgroundImage = `url("${Data.card[2]}")`;
             objs.flipEffect.classList.add('active');
           }else if(currentRatio > 0.91 && currentRatio < 0.99){
+            objs.flipEffect.classList.remove('active');
+          }else{
             objs.flipEffect.classList.remove('active');
           }
           break;
