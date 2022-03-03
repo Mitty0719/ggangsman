@@ -4,6 +4,10 @@ import Data from '../src/data.json' assert { type: 'json' };
 
 class App{
   constructor(){
+    this.stage = document.querySelector('.stage');
+    this.cursor = document.querySelector('.cursor');
+    this.canvas = document.querySelector('.firecracker-canvas');
+    this.ctx = this.canvas.getContext('2d');
     this.sectionInfo = [
       {
         sectionNum: 0,
@@ -73,7 +77,7 @@ class App{
         }
       }
     ];
-    this.stageWidth = document.body.clientWidth;
+    this.totalHeight = 0; // 전체 높이
     this.currentY = 0; // window.pageYOffset
     this.currentSection = -1; // 현재 section
     this.prevSectionHeight = 0; // 이전 section 높이 합
@@ -82,54 +86,58 @@ class App{
     this.contentTextArray = Data.text.split('');
     this.contentTextCnt = 0;
     this.purposeTime = new Date(2022, 2, 10, 0);
+    this.images = [[],[]];
 
-    this.canvas = null;
-    this.ctx = null;
     this.crackers = new Set();
     this.airships = [];
 
-    this.setMainTimer();
+    this.setProgress();
     this.setLayout();
+    this.loadImages();
+    this.setMainTimer();
+    this.createGallery();
+    this.devideCardImage();
+    this.createAirship();
 
-    // airship 객체 생성
-    for(let i = 0; i < 3; i++){
-      this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
-    }
+    // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
+    window.scrollTo(0, 1);
+    window.scrollTo(0, 0);
+
 
     window.addEventListener('scroll', ()=>{
       this.checkScroll();
     });
     window.addEventListener('resize', ()=>{
-      
+      this.setLayout();
     });
     window.addEventListener('keydown', ()=>{
       if(this.currentSection === 1){
         this.typeContentText(this.sectionInfo[1].objs.textContent);
       }
     });
-
-    // this.sampleFire = new Firecracker(this.stageWidth, this.sectionInfo[4].screenHeight);
-
-
-    // 임시
-    this.createGallery();
-    this.devideCardImage();
-
-    this.images = [[],[]];
-    this.loadImages();
-    this.setProgress();
-
-    this.cursor = document.querySelector('.cursor');
     window.addEventListener('mousemove', (e)=>{
       this.cursor.style.top = `${e.clientY}px`;
       this.cursor.style.left = `${e.clientX}px`;
     });
+    //events
+    this.sectionInfo[1].objs.textAuto.addEventListener('click', ()=>{
+      // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
+      const autoId = setInterval(()=>{
+        this.typeContentText(this.sectionInfo[1].objs.textContent);
+        if(this.currentSection !== 1){
+          clearInterval(autoId);
+        }
+      }, 30);
+    });
+    this.sectionInfo[2].objs.galleryCon.addEventListener('click', this.clickGalleryTag.bind(this));
+    document.addEventListener('click', (e)=>{
+      this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+      this.checkAirshipOut();
+    });
   }
 
   setLayout(){
-    // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
-    window.scrollTo(0, 1);
-    window.scrollTo(0, 0);
+    this.stageWidth = document.body.clientWidth;
 
     const contentSection = document.querySelectorAll('.content-section');
     const loadCon = document.querySelector('.load-con');
@@ -137,9 +145,11 @@ class App{
       this.sectionInfo[i].screenHeight = window.innerHeight * this.sectionInfo[i].screenRatio;
       contentSection[i].style.height = `${this.sectionInfo[i].screenHeight}px`;
     }
-
     loadCon.style.width = `${this.stageWidth}px`;
     loadCon.style.height = `${this.sectionInfo[0].screenHeight}px`;
+
+    this.canvas.width = this.stageWidth;
+    this.canvas.height = this.sectionInfo[4].screenHeight;
   }
 
     calcAnimationValues(values, currentYOffset){
@@ -179,18 +189,8 @@ class App{
             // typeText(sectionInfo[1].objs.textContent, true, 20);
             this.showContentText = true;
           }
-          objs.textAuto.addEventListener('click', ()=>{
-            // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
-            const autoId = setInterval(()=>{
-              this.typeContentText(objs.textContent);
-              if(this.currentSection !== 1){
-                clearInterval(autoId);
-              }
-            }, 30);
-          })
           break;
         case 2:
-          objs.galleryCon.addEventListener('click', this.clickGalleryTag.bind(this));
           break;
         case 3:
           if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
@@ -231,16 +231,8 @@ class App{
           break;
         case 4:
           if(this.enteringSection){
-            this.canvas = document.querySelector('.firecracker-canvas');
-            this.ctx = this.canvas.getContext('2d');
-            this.canvas.width = document.body.clientWidth;
-            this.canvas.height = this.sectionInfo[4].screenHeight;
 
             if(!this.hasEnterCanvas){
-              document.addEventListener('click', (e)=>{
-                this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
-                this.checkAirshipOut();
-              });
               this.hasEnterCanvas = true;
 
               requestAnimationFrame(this.animateFirecracker.bind(this));
@@ -391,7 +383,6 @@ class App{
       }
     }
     clickGalleryTag(e){
-      console.log(e.target)
       const target = e.target;
       if(target.classList.contains('tag')){
         target.parentNode.childNodes.forEach((tag)=>{
@@ -463,6 +454,7 @@ class App{
             clearInterval(progressIntId);
             setTimeout(()=>{
               loadCon.classList.add('loaded');
+              this.stage.style.height = 'initial';
           }, 1000);
           }
         } ,30);
@@ -470,6 +462,12 @@ class App{
           loadCon.style.display = 'none';
         });
       }, 1000)
+    }
+    createAirship(){
+      // airship 객체 생성
+      for(let i = 0; i < 3; i++){
+        this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+      }
     }
 }
 

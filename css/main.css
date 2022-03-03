@@ -7,7 +7,9 @@ body {
 #visible-3 .card-section .holding-elem { display: block; }
 #visible-4 .dice-section .holding-elem { display: block; }
 .stage {
-position: relative;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
 }
 .section {
   width: 100vw;
@@ -23,6 +25,13 @@ position: relative;
   position: absolute;
   top: 50px;
   left: 50px;
+  font-weight: 600;
+}
+.logo-con span {
+  transition-duration: 1s;
+}
+.logo-con span:hover {
+  color: #000;
 }
 .main-svg-con {
   width: 90vw;
@@ -162,7 +171,7 @@ position: relative;
 .card-img-con {
   position: absolute;
   width: 40vw;
-  height: 60vw;
+  height: 50vw;
   top: 500px;
   left: 75%;
   transform: translateX(-50%);
@@ -173,7 +182,7 @@ position: relative;
   height: 100%;
   background-image: url('../src/images/card_img1.png');
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   overflow: hidden;
 }
@@ -303,7 +312,34 @@ position: relative;
   transform: translateZ(50px) translate(-50%, -50%);
 }
 @media (max-width: 820px){
+
+  .logo-con {
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .main-svg-con {
+    display: none;
+  }
+  .timer-con {
+    right: initial;
+    font-size: 15vw;
+    text-align: center;
+  }
+  .text-content .title {
+    font-size: 3rem;
+  }
+  .text-content .content {
+    font-size: 1rem;
+    line-height: 1.7rem;
+  }
   .gallery-con {
-      flex-flow: row wrap;
+    flex-flow: row wrap;
+  }
+  .holding-elem {
+    font-size: 2rem;
+  }
+  .background-con .city {
+    height: 300px;
   }
 }
