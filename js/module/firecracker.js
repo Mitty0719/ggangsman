@@ -4,6 +4,7 @@ const COLORS_RGBA = [
   {r: 126, g: 219, b: 96, a: 0.86},
   {r: 29, g: 184, b: 245, a: 0.96},
   {r: 202, g: 146, b: 224, a: 0.88},
+  {r: 255, g: 255, b: 40, a: 0.88},
 ];
 const TYPE = ['basic', 'basic', 'basic', 'smile'];
 
@@ -23,7 +24,7 @@ export class Firecracker{
     this.radiusGap = 20 // 폭죽 단계 당 거리
     this.level = 0;
     this.maxLevel = Math.floor(Math.random() * 8) + 3;
-    this.color = COLORS_RGBA[Math.floor(Math.random() * 4)];
+    this.color = COLORS_RGBA[Math.floor(Math.random() * COLORS_RGBA.length)];
 
     this.opacity = 1;
     this.diameter = Math.floor(Math.random() * 30) + 60; // 스마일 원형

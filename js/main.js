@@ -114,6 +114,9 @@ class App{
     // 임시
     this.createGallery();
     this.devideCardImage();
+
+    this.images = [[],[]];
+    this.loadImages();
   }
 
   setLayout(){
@@ -424,6 +427,20 @@ class App{
         }
       }
       flipEffect.innerHTML = htmlStr;
+    }
+    loadImages(){
+      const gallery = Data.gallery;
+      const card = Data.card;
+      for(let i = 0; i < gallery.length; i++){
+        const image = new Image();
+        image.src = gallery[i]['src'];
+        this.images[0][i] = image;
+      }
+      for(let i = 0; i < card.length; i++){
+        const image = new Image();
+        image.src = card[i]
+        this.images[1][i] = image;
+      }
     }
 }
 
