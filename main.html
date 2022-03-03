@@ -35,17 +35,44 @@
                   fill:none;
                   stroke: #fff;
                   stroke-miterlimit: 10;
-                  stroke-width: 3px;}
+                  stroke-width: 5px;}
               </style>
-              <image id="image1" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image2" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image3" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image4" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image5" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image6" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image7" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image8" width="1140" height="820" xlink:href="/src/images/sample.png"/>
-              <image id="image9" width="1140" height="820" xlink:href="/src/images/sample.png"/>
+              <mask id="mask-top-left-1">
+                <rect x="99" y="84.5" width="206" height="208" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-top-right-1">
+                <rect x="311" y="20" width="80" height="120" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-top-right-2">
+                <rect x="311" y="145.5" width="214" height="147" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-top-right-3">
+                <rect x="530" y="220" width="100" height="72.5" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-bottom-left-1">
+                <rect x="46.5" y="297" width="100" height="72.5" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-bottom-left-2">
+                <rect x="152" y="297" width="153" height="230" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-bottom-right-1">
+                <rect x="311" y="297" width="168" height="143" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-bottom-right-2">
+                <rect x="485" y="297" width="80" height="80" style="fill: #fff"></rect>
+              </mask>
+              <mask id="mask-bottom-right-3">
+                <rect x="311" y="445" width="60" height="60" style="fill: #fff"></rect>
+              </mask>
+              <image id="image1" width="206" height="210" xlink:href="/src/images/main_img1.png"/>
+              <image id="image2" width="80" height="130" xlink:href="/src/images/main_img2.png"/>
+              <image id="image3" width="214" height="238" xlink:href="/src/images/main_img3.png"/>
+              <image id="image4" width="100" height="112" xlink:href="/src/images/main_img4.png"/>
+              <image id="image5" width="100" height="128" xlink:href="/src/images/main_img5.png"/>
+              <image id="image6" width="153" height="205" xlink:href="/src/images/main_img6.png"/>
+              <image id="image7" width="168" height="224" xlink:href="/src/images/main_img7.png"/>
+              <image id="image8" width="80" height="110" xlink:href="/src/images/main_img8.png"/>
+              <image id="image9" width="60" height="80" xlink:href="/src/images/main_img9.png"/>
             </defs>
             <line class="cls-1" y1="295" x2="1282" y2="295"/> <!-- 중앙 가로선 -->
             <line class="cls-1" x1="308" y1="594" x2="308"/> <!-- 중앙 세로선  -->
@@ -56,15 +83,43 @@
             <line class="cls-1" x1="482" y1="295.5" x2="482" y2="516"/> <!-- 우하 세로선 -->
             <line class="cls-1" x1="308.5" y1="442" x2="558.5" y2="442"/> <!-- 우하 가로선 -->
 
-            <use transform="translate(26.5 83.5) scale(0.25 0.26)" xlink:href="#image1"/> <!-- 좌상 1 -->
-            <use transform="translate(309.5 95.5) scale(0.07 0.06)" xlink:href="#image2"/> <!-- 우상 1 -->
-            <use transform="translate(309.5 144.5) scale(0.19 0.18)" xlink:href="#image3"/> <!-- 우상 2 -->
-            <use transform="translate(528.5 247.5) scale(0.07 0.06)" xlink:href="#image4"/> <!-- 우상 3 -->
-            <use transform="translate(78.5 296.5) scale(0.06 0.05)" xlink:href="#image5"/> <!-- 좌하 1 -->
-            <use transform="translate(150.5 296.5) scale(0.14 0.27)" xlink:href="#image6"/> <!-- 좌하 2 -->
-            <use transform="translate(309.5 296.5) scale(0.15 0.18)" xlink:href="#image7"/> <!-- 우하 1 -->
-            <use transform="translate(483.5 296.5) scale(0.06 0.06)" xlink:href="#image8"/> <!-- 우하 2 -->
-            <use transform="translate(309.5 443.5) scale(0.04 0.05)" xlink:href="#image9"/> <!-- 우하 3 -->
+            <g mask="url(#mask-top-left-1)">
+              <use transform="translate(99 84.5)" xlink:href="#image1"/>
+            </g>
+            <g mask="url(#mask-top-right-1)">
+              <use transform="translate(311 20)" xlink:href="#image2"/>
+            </g>
+            <g mask="url(#mask-top-right-2)">
+              <use transform="translate(311 85)" xlink:href="#image3"/> <!-- 311 145.5 -->
+            </g>
+            <g mask="url(#mask-top-right-3)">
+              <use transform="translate(530 205)" xlink:href="#image4"/> <!-- 530 220 -->
+            </g>
+            <g mask="url(#mask-bottom-left-1)">
+              <use transform="translate(46.5 273)" xlink:href="#image5"/> <!-- 46.5 297 -->
+            </g>
+            <g mask="url(#mask-bottom-left-2)">
+              <use transform="translate(152 297)" xlink:href="#image6"/>
+            </g>
+            <g mask="url(#mask-bottom-right-1)">
+              <use transform="translate(311 230)" xlink:href="#image7"/> <!-- 311 297 -->
+            </g>
+            <g mask="url(#mask-bottom-right-2)">
+              <use transform="translate(485 275)" xlink:href="#image8"/> <!-- 485 297 -->
+            </g>
+            <g mask="url(#mask-bottom-right-3)">
+              <use transform="translate(311 435)" xlink:href="#image9"/> <!-- 311 445 -->
+            </g>
+            
+            <!-- <rect x="99" y="84.5" width="206" height="208" style="fill: red"></rect>
+            <rect x="311" y="20" width="80" height="120" style="fill: red"></rect>
+            <rect x="311" y="145.5" width="214" height="147" style="fill: red"></rect>
+            <rect x="530" y="220" width="100" height="72.5" style="fill: red"></rect>
+            <rect x="46.5" y="297" width="100" height="72" style="fill: red"></rect>
+            <rect x="152" y="297" width="153" height="230" style="fill: red"></rect>
+            <rect x="311" y="297" width="168" height="143" style="fill: red"></rect>
+            <rect x="485" y="297" width="80" height="80" style="fill: red"></rect>
+            <rect x="311" y="445" width="60" height="60" style="fill: red"></rect> -->
           </svg>
         </div>
       </section>
