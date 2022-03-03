@@ -118,6 +118,12 @@ class App{
     this.images = [[],[]];
     this.loadImages();
     this.setProgress();
+
+    this.cursor = document.querySelector('.cursor');
+    window.addEventListener('mousemove', (e)=>{
+      this.cursor.style.top = `${e.clientY}px`;
+      this.cursor.style.left = `${e.clientX}px`;
+    });
   }
 
   setLayout(){
@@ -385,6 +391,7 @@ class App{
       }
     }
     clickGalleryTag(e){
+      console.log(e.target)
       const target = e.target;
       if(target.classList.contains('tag')){
         target.parentNode.childNodes.forEach((tag)=>{
