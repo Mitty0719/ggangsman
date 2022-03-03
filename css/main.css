@@ -232,13 +232,48 @@ position: relative;
 }
 
 .load-con {
+  display: flex;
   position: absolute;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   top: 0;
   left: 0;
   background: black;
   z-index: 100;
-  display: none;
+  transition-duration: 1s;
 }
+.load-con.loaded {
+  opacity: 0;
+}
+.load-image-con {
+  position: relative;
+  width: 150px;
+  height: 195px;
+}
+.load-image-con .load-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url('../src/images/loading_img.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.load-image-con .load-progress {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 10;
+}
+.load-ratio{
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 4rem;
+}
+
+
 .holding-elem {
   display: none;
   position: fixed !important;

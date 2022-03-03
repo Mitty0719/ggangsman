@@ -117,6 +117,7 @@ class App{
 
     this.images = [[],[]];
     this.loadImages();
+    this.setProgress();
   }
 
   setLayout(){
@@ -441,6 +442,27 @@ class App{
         image.src = card[i]
         this.images[1][i] = image;
       }
+    }
+    setProgress(){
+      const loadCon = document.querySelector('.load-con')
+      const progress = document.querySelector('.load-progress');
+      const ratio = document.querySelector('.load-ratio span');
+      let progressRatio = 0;
+      setTimeout(()=>{
+        const progressIntId = setInterval(()=>{
+          progress.style.height = `${100 - progressRatio++}%`;
+          ratio.innerHTML = progressRatio;
+          if(progressRatio >= 100){
+            clearInterval(progressIntId);
+            setTimeout(()=>{
+              loadCon.classList.add('loaded');
+          }, 1000);
+          }
+        } ,30);
+        loadCon.addEventListener('transitionend', ()=>{
+          loadCon.style.display = 'none';
+        });
+      }, 1000)
     }
 }
 
