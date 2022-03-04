@@ -104,9 +104,6 @@ class App{
     this.devideCardImage();
     this.createAirship();
 
-    // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
-    window.scrollTo(0, 1);
-    window.scrollTo(0, 0);
 
 
     window.addEventListener('scroll', ()=>{
@@ -314,7 +311,8 @@ class App{
         this.contentTextCnt++;
     };
     setMainTimer(){
-      const currentTime = new Date;
+      // const currentTime = new Date;
+      const currentTime = new Date(2022, 2, 10);
       const betweenSeconds = Math.floor((this.purposeTime.getTime() - currentTime.getTime()) / 1000);
       const daySeconds = betweenSeconds % (3600 * 24);
       
@@ -323,6 +321,10 @@ class App{
       
       this.sectionInfo[0].objs.timerDay.innerText = days;
       this.sectionInfo[0].objs.timerTime.innerText = time;
+
+      if(betweenSeconds <= 0){
+        this.setBirthday();
+      }
     }
 
     animateFirecracker(){
@@ -461,6 +463,9 @@ class App{
             setTimeout(()=>{
               loadCon.classList.add('loaded');
               this.stage.style.height = 'initial';
+              // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
+              window.scrollTo(0, 1);
+              window.scrollTo(0, 0);
           }, 1000);
           }
         } ,30);
@@ -474,6 +479,9 @@ class App{
       for(let i = 0; i < 3; i++){
         this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
       }
+    }
+    setBirthday(){
+      
     }
 }
 
