@@ -1,6 +1,7 @@
 import { Airship } from './module/airship.js';
 import { Firecracker } from './module/firecracker.js';
 import Data from '../src/data.json' assert { type: 'json' };
+import { Birthday } from './module/birthday.js';
 
 class App{
   constructor(){
@@ -104,6 +105,7 @@ class App{
     this.devideCardImage();
     this.createAirship();
 
+    this.setBirthday();
 
 
     window.addEventListener('scroll', ()=>{
@@ -323,7 +325,7 @@ class App{
       this.sectionInfo[0].objs.timerTime.innerText = time;
 
       if(betweenSeconds <= 0){
-        this.setBirthday();
+        // this.setBirthday();
       }
     }
 
@@ -481,7 +483,10 @@ class App{
       }
     }
     setBirthday(){
-      
+      const birthday = new Birthday();
+      setInterval(()=>{
+        birthday.updateProgress();
+      }, 1000);
     }
 }
 
