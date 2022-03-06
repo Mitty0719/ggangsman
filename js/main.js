@@ -105,7 +105,6 @@ class App{
     this.devideCardImage();
     this.createAirship();
 
-    this.setBirthday();
 
 
     window.addEventListener('scroll', ()=>{
@@ -299,7 +298,7 @@ class App{
           clearInterval(typeId);
           clearInterval(cntId);
           // 타이머 시작
-          setInterval(this.setMainTimer.bind(this), 1000);
+          this.mainTimerId = setInterval(this.setMainTimer.bind(this), 1000);
         }
       }, 240);
     }
@@ -313,8 +312,7 @@ class App{
         this.contentTextCnt++;
     };
     setMainTimer(){
-      // const currentTime = new Date;
-      const currentTime = new Date(2022, 2, 10);
+      const currentTime = new Date;
       const betweenSeconds = Math.floor((this.purposeTime.getTime() - currentTime.getTime()) / 1000);
       const daySeconds = betweenSeconds % (3600 * 24);
       
@@ -324,8 +322,10 @@ class App{
       this.sectionInfo[0].objs.timerDay.innerText = days;
       this.sectionInfo[0].objs.timerTime.innerText = time;
 
-      if(betweenSeconds <= 0){
-        // this.setBirthday();
+      if(betweenSeconds <= 0 && !this.isBirthday){
+        clearInterval(this.mainTimerId);
+        this.setBirthday();
+        this.isBirthday = true;
       }
     }
 
@@ -484,6 +484,7 @@ class App{
     }
     setBirthday(){
       const birthday = new Birthday();
+      
       setInterval(()=>{
         birthday.updateProgress();
       }, 1000);

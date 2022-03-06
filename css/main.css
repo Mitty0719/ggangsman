@@ -320,24 +320,93 @@ body {
 }
 
 /* birthday-stage */
-/* 음반 느낌으로 살리기, 스트리밍 느낌 */
-/* 생일 축하 노래 들어가면 더 좋고 */
 .birthday-stage {
   position: fixed;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #E8383D;
   z-index: 9999;
+  opacity: 0;
+  transition-duration: 1s;
+  /* background: #E8383D; */
+}
+.birthday-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../src/images/birthday_img1.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+.birthday-text-con {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 100;
+  opacity: 1;
+  transition-duration: 1s;
+}
+.birthday-text-con .crap-button {
+  padding: 12px;
+  background: #000;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  transition-duration: 1s;
+}
+.birthday-text-con .crap-button:hover {
+  background: #aaa;
+  /* color: #000; */
+}
+.birthday-text-con h3 {
+  color: #000;
+  font-size: 3rem;
+  font-weight: 600;
+}
+.birthday-text-con p {
+  color: #000;
+  font-size: 1rem;
+}
+.birthday-text-con .crap-text {
+  width: 60vw;
+  line-height: 2rem;
+  opacity: 0;
+  transition-duration: 4s;
+}
+.birthday-text-con .music-button {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 1rem;
+  text-decoration: underline;
+  transition-duration: 4s;
+  opacity: 0;
+}
+.birthday-text-con .music-button:hover {
+  color: #aaa;
 }
 .album {
   padding: 15px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 25px;
+  z-index: 50;
 }
 .album-image-con {
 
@@ -377,7 +446,7 @@ body {
   transition-duration: 1s;
 }
 .button-play:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(8, 5, 5, 0.2);
 }
 .button-play .play-img {
   position: absolute;
