@@ -14,7 +14,7 @@ export class Birthday{
 
     setTimeout(()=>{
       this.wholeTime.innerHTML = `${Math.floor(this.music.duration / 60).toString().padStart(2, '0')}:${Math.floor(this.music.duration % 60).toString().padStart(2, '0')}`;
-    }, 100);
+    }, 1000);
 
     this.progressCon.addEventListener('click', this.setCurrentTime.bind(this));
   }
