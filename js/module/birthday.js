@@ -32,7 +32,7 @@ export class Birthday{
       this.crapText.style.opacity = 1;
       setTimeout(()=>{
         this.musicButton.style.opacity = 1;
-      }, 4000);
+      }, 2000);
     });
 
     this.musicButton.addEventListener('click', ()=>{

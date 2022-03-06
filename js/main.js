@@ -7,6 +7,8 @@ class App{
   constructor(){
     this.stage = document.querySelector('.stage');
     this.cursor = document.querySelector('.cursor');
+    this.cursorPoint = document.querySelector('.cursor .point')
+    this.cursorAura = document.querySelector('.cursor .aura');
     this.canvas = document.querySelector('.firecracker-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.sectionInfo = [
@@ -312,8 +314,8 @@ class App{
         this.contentTextCnt++;
     };
     setMainTimer(){
-      // const currentTime = new Date;
-      const currentTime = new Date(2022, 2, 10);
+      const currentTime = new Date;
+      // const currentTime = new Date(2022, 2, 10);
       const betweenSeconds = Math.floor((this.purposeTime.getTime() - currentTime.getTime()) / 1000);
       const daySeconds = betweenSeconds % (3600 * 24);
       
@@ -484,6 +486,10 @@ class App{
       }
     }
     setBirthday(){
+      this.stage.style.display = 'none';
+      this.cursorPoint.classList.add('black');
+      this.cursorAura.classList.add('border-black');
+      
       const birthday = new Birthday();
       
       setInterval(()=>{

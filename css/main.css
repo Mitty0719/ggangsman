@@ -2,7 +2,9 @@ body {
   background: black;
   color: white;
   font-family: ‘SUIT’, sans-serif;
-  /* cursor: none; */
+}
+body * {
+  cursor: none;
 }
 #visible-3 .card-section .holding-elem { display: block; }
 #visible-4 .dice-section .holding-elem { display: block; }
@@ -300,7 +302,7 @@ body {
 .cursor {
   position: fixed;
   pointer-events: none;
-  z-index: 999;
+  z-index: 9999;
 }
 
 .cursor .point {
@@ -318,7 +320,12 @@ body {
   border-radius: 10px;
   transform: translate(-50%, -50%);
 }
-
+.black {
+  background: #000 !important;
+}
+.border-black {
+  border: 1px solid #000 !important;
+}
 /* birthday-stage */
 .birthday-stage {
   position: fixed;
