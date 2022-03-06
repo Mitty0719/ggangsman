@@ -312,7 +312,8 @@ class App{
         this.contentTextCnt++;
     };
     setMainTimer(){
-      const currentTime = new Date;
+      // const currentTime = new Date;
+      const currentTime = new Date(2022, 2, 10);
       const betweenSeconds = Math.floor((this.purposeTime.getTime() - currentTime.getTime()) / 1000);
       const daySeconds = betweenSeconds % (3600 * 24);
       
