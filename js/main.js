@@ -123,18 +123,22 @@ class App{
         this.typeContentText();
       }
     });
-    window.addEventListener('touchend', (e)=>{
-      if(this.currentSection === 1){
-        this.typeContentText();
-      }else if (this.currentSection === 4){
-        this.createCracker(e);
-      }
-    });
-    window.addEventListener('click', (e)=>{
-      if(this.currentSection === 4){
-        this.createCracker(e);
-      }
-    })
+    if(this.isMobile()){
+      window.addEventListener('touchend', (e)=>{
+        if(this.currentSection === 1){
+          this.typeContentText();
+        }else if (this.currentSection === 4){
+          const x = Math.floor(Math.random() * this.stageWidth);
+          this.createCracker(x);
+        }
+      });
+    }else{
+      window.addEventListener('click', (e)=>{
+        if(this.currentSection === 4){
+          this.createCracker(e.clientX);
+        }
+      })
+    }
     window.addEventListener('mousemove', (e)=>{
       this.cursor.style.top = `${e.clientY}px`;
       this.cursor.style.left = `${e.clientX}px`;
@@ -173,6 +177,8 @@ class App{
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.sectionInfo[4].screenHeight;
   }
+  isMobile() {return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);}
+
   loadImages(){
     const gallery = this.data.gallery;
     const card = this.data.card;
@@ -514,8 +520,8 @@ class App{
       birthday.updateProgress();
     }, 1000);
   }
-  createCracker(e){
-    this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+  createCracker(x){
+    this.crackers.add(new Firecracker(x, this.sectionInfo[4].screenHeight));
     this.checkAirshipOut();
   }
 }
