@@ -26,6 +26,30 @@ body * {
   opacity: 0;
   transition-duration: 1s;
 }
+@keyframes guide-ani {
+  from{transform: translate(-50%, -100%);}
+  20%{transform: translate(-50%, 0%); opacity: 1;}
+  80%{transform: translate(-50%, 0%); opacity: 1;}
+  to{transform: translate(-50%, -100%);}
+}
+.guide-con {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 999;
+  pointer-events: none;
+}
+.section-guide {
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+}
+#visible-1 .guide-con .section2-guide { animation: guide-ani 3s alternate; }
+#visible-2 .guide-con .section3-guide { animation: guide-ani 3s alternate; }
+#visible-4 .guide-con .section5-guide { animation: guide-ani 3s alternate; }
 
 .main-section {
   display: flex;
