@@ -143,11 +143,16 @@ class App{
 
   setLayout(){
     this.stageWidth = document.body.clientWidth;
-
+    let screenRatio = document.body.clientHeight / document.body.clientWidth;
+    
     const contentSection = document.querySelectorAll('.content-section');
     const loadCon = document.querySelector('.load-con');
     for(let i = 0; i < this.sectionInfo.length; i++){
-      this.sectionInfo[i].screenHeight = window.innerHeight * this.sectionInfo[i].screenRatio;
+      if(i === 2){
+        this.sectionInfo[i].screenHeight = window.innerHeight * this.sectionInfo[i].screenRatio * screenRatio;
+      }else{
+        this.sectionInfo[i].screenHeight = window.innerHeight * this.sectionInfo[i].screenRatio;
+      }
       contentSection[i].style.height = `${this.sectionInfo[i].screenHeight}px`;
     }
     loadCon.style.width = `${this.stageWidth}px`;
@@ -198,11 +203,11 @@ class App{
         case 2:
           break;
         case 3:
-          if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
-            objs.cardImgCon.classList.add('holding-elem');
-          }else{
-            objs.cardImgCon.classList.remove('holding-elem');
-          }
+          // if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
+          //   objs.cardImgCon.classList.add('holding-elem');
+          // }else{
+          //   objs.cardImgCon.classList.remove('holding-elem');
+          // }
           
           if(currentRatio <= 0.16){
             objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_in, currentYOffset);

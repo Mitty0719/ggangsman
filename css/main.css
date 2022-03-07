@@ -6,8 +6,6 @@ body {
 body * {
   cursor: none;
 }
-#visible-3 .card-section .holding-elem { display: block; }
-#visible-4 .dice-section .holding-elem { display: block; }
 .stage {
   position: relative;
   height: 100vh;
@@ -23,6 +21,7 @@ body * {
   top: 50%;
   transform: translateZ(50px) translate(-50%, -50%);
 }
+#visible-3 .card-section .holding-elem { display: block; }
 
 .main-section {
   display: flex;
