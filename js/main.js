@@ -145,6 +145,7 @@ class App{
   setLayout(){
     this.stageWidth = document.body.clientWidth;
     let screenRatio = window.innerHeight / window.innerWidth;
+    screenRatio = screenRatio > 1 ? screenRatio : 1;
     
     const loadCon = document.querySelector('.load-con');
     for(let i = 0; i < this.sectionInfo.length; i++){
