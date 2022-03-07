@@ -120,14 +120,21 @@ class App{
     });
     window.addEventListener('keydown', ()=>{
       if(this.currentSection === 1){
-        this.typeContentText(this.sectionInfo[1].objs.textContent);
+        this.typeContentText();
       }
     });
-    window.addEventListener('touchend', ()=>{
+    window.addEventListener('touchend', (e)=>{
       if(this.currentSection === 1){
-        this.typeContentText(this.sectionInfo[1].objs.textContent);
+        this.typeContentText();
+      }else if (this.currentSection === 4){
+        this.createCracker(e);
       }
     });
+    window.addEventListener('click', (e)=>{
+      if(this.currentSection === 4){
+        this.createCracker(e);
+      }
+    })
     window.addEventListener('mousemove', (e)=>{
       this.cursor.style.top = `${e.clientY}px`;
       this.cursor.style.left = `${e.clientX}px`;
@@ -144,12 +151,6 @@ class App{
       }, 30);
     });
     this.sectionInfo[2].objs.galleryCon.addEventListener('click', this.clickGalleryTag.bind(this));
-    document.addEventListener('click', (e)=>{
-      if(this.currentSection === 4){
-        this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
-        this.checkAirshipOut();
-      }
-    });
   }
 
   setLayout(){
@@ -172,347 +173,351 @@ class App{
     this.canvas.width = this.stageWidth;
     this.canvas.height = this.sectionInfo[4].screenHeight;
   }
-
-    calcAnimationValues(values, currentYOffset){
-      let value; // return value
-      let sectionHeight = this.sectionInfo[this.currentSection].screenHeight;
-
-      let partScrollStart = sectionHeight * values[2].start;
-      let partScrollEnd = sectionHeight * values[2].end;
-      let partScrollHeight = partScrollEnd - partScrollStart;
-      let sectionScrollRatio = currentYOffset - this.prevSectionHeight / sectionHeight;
-
-      if(sectionScrollRatio >= partScrollStart && sectionScrollRatio <= partScrollEnd){
-          value = (currentYOffset - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
-      }else if(sectionScrollRatio < partScrollStart){
-          value = values[0];
-      }else if(sectionScrollRatio > partScrollEnd){
-          value = values[1];
-      }
-
-      return value;
+  loadImages(){
+    const gallery = this.data.gallery;
+    const card = this.data.card;
+    for(let i = 0; i < gallery.length; i++){
+      const image = new Image();
+      image.src = gallery[i]['src'];
+      this.images[0][i] = image;
     }
-    playAnimation(){
-      let currentYOffset = this.currentY - this.prevSectionHeight;
-      let currentRatio = currentYOffset / this.sectionInfo[this.currentSection].screenHeight;
-      const objs = this.sectionInfo[this.currentSection].objs;
-      const values = this.sectionInfo[this.currentSection].values;
-
-      switch(this.currentSection){
-        case 0:
-          if(this.enteringSection){
-            this.typeText(objs.timerDay);
-            this.typeText(objs.timerTime);
-          }
-          break;
-        case 1:
-          break;
-        case 2:
-          break;
-        case 3:
-          // if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
-          //   objs.cardImgCon.classList.add('holding-elem');
-          // }else{
-          //   objs.cardImgCon.classList.remove('holding-elem');
-          // }
-          
-          if(currentRatio <= 0.16){
-            objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_in, currentYOffset);
-            objs.cardSubText1.style.opacity = this.calcAnimationValues(values.cardSubText1_opacity_in, currentYOffset);
-          }else if(currentRatio <= 0.49){
-            objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
-            objs.cardText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_in, currentYOffset);
-            objs.cardSubText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
-            objs.cardSubText2.style.opacity = this.calcAnimationValues(values.cardSubText2_opacity_in, currentYOffset);
-          }else if(currentRatio <= 0.82){
-            objs.cardText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
-            objs.cardText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_in, currentYOffset);
-            objs.cardSubText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
-            objs.cardSubText3.style.opacity = this.calcAnimationValues(values.cardSubText3_opacity_in, currentYOffset);
-          }else{
-            objs.cardText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
-            objs.cardSubText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
-            objs.cardImgCon.style.opacity = this.calcAnimationValues(values.cardImgCon_opacity_out, currentYOffset);
-          }
-
-          if(currentRatio > 0.08 && currentRatio < 0.15){
-            objs.flipEffect.style.backgroundImage = `url("${this.data.card[0]}")`;
-            objs.flipEffect.classList.add('active');
-          }else if(currentRatio > 0.35 && currentRatio < 0.39){
-            objs.flipEffect.classList.remove('active');
-          }else if(currentRatio > 0.40 && currentRatio < 0.48){
-            objs.flipEffect.style.backgroundImage = `url("${this.data.card[1]}")`;
-            objs.flipEffect.classList.add('active');
-          }else if(currentRatio > 0.69 && currentRatio < 0.73){
-            objs.flipEffect.classList.remove('active');
-          }else if(currentRatio > 0.74 && currentRatio < 0.81){
-            objs.flipEffect.style.backgroundImage = `url("${this.data.card[2]}")`;
-            objs.flipEffect.classList.add('active');
-          }else if(currentRatio > 0.95 && currentRatio < 0.99){
-            objs.flipEffect.classList.remove('active');
-          }else{
-            objs.flipEffect.classList.remove('active');
-          }
-          break;
-        case 4:
-          if(this.enteringSection){
-
-            if(!this.hasEnterCanvas){
-              this.hasEnterCanvas = true;
-
-              requestAnimationFrame(this.animateFirecracker.bind(this));
-            }
-          }
-          break;
-      }
-      // console.log(currentSection);
+    for(let i = 0; i < card.length; i++){
+      const image = new Image();
+      image.src = card[i]
+      this.images[1][i] = image;
     }
-    checkScroll(){ // scroll Loop
-      this.prevSectionHeight = 0;
-      this.currentY = window.pageYOffset;
-      this.enteringSection = true;
-
-      for(let i = 0; i <= this.sectionInfo.length; i++){
-        if(this.currentY < this.prevSectionHeight + this.sectionInfo[i].screenHeight){
-          // console.log(currentSection, i);
-          if(this.currentSection === i){
-            this.enteringSection = false;
-          } else {
-            this.currentSection = i;
-          }
-          break;
+  }
+  setProgress(){
+    const loadCon = document.querySelector('.load-con')
+    const progress = document.querySelector('.load-progress');
+    const ratio = document.querySelector('.load-ratio span');
+    let progressRatio = 0;
+    setTimeout(()=>{
+      const progressIntId = setInterval(()=>{
+        progress.style.height = `${100 - progressRatio++}%`;
+        ratio.innerHTML = progressRatio;
+        if(progressRatio >= 100){
+          clearInterval(progressIntId);
+          setTimeout(this.setLoaded.bind(this, loadCon), 1000);
         }
-        this.prevSectionHeight += this.sectionInfo[i].screenHeight;
-      }
-      // console.log(currentSection);
-      document.body.setAttribute('id', `visible-${this.currentSection}`);
-      
-      this.playAnimation();
-    }
-    typeText(textDOM){
-      const realText = textDOM.innerText.split(''); // 현재 시각 폼 받아오는 함수 만들어서 받아오기
-      let textCnt = 0;
-
-      const typeId = setInterval(()=>{
-        const junkText = [];
-        let junkChar;
-        for(let i = 0; i < textCnt; i++){
-          junkText.push(realText[i]);
-        }
-        for(let i = textCnt; i < realText.length; i++){
-          junkChar = String.fromCharCode(Math.random() * 57 + 65);
-          junkText.push(junkChar);
-        }
-        textDOM.innerText = junkText.join('');
-      }, 80);
-
-      const cntId = setInterval(()=>{
-        textCnt++;
-        if(textCnt > realText.length){
-          clearInterval(typeId);
-          clearInterval(cntId);
-          // 타이머 시작
-          this.mainTimerId = setInterval(this.setMainTimer.bind(this), 1000);
-        }
-      }, 240);
-    }
-    typeContentText(textDOM){
-        if(this.contentTextCnt > this.contentTextArray.length) return;
-        let contentText = '';
-        for(let i = 0; i < this.contentTextCnt; i++){
-            contentText += this.contentTextArray[i];
-        }
-        textDOM.innerText = contentText;
-        this.contentTextCnt++;
-    };
-    setMainTimer(){
-      const currentTime = new Date;
-      // const currentTime = new Date(2022, 2, 10);
-      const betweenSeconds = Math.floor((this.purposeTime.getTime() - currentTime.getTime()) / 1000);
-      const daySeconds = betweenSeconds % (3600 * 24);
-      
-      const days = `${Math.floor(betweenSeconds / 3600 / 24)} Days`;
-      const time = `${Math.floor(daySeconds / 3600).toString().padStart(2, '0')}h ${Math.floor(daySeconds % 3600 / 60).toString().padStart(2, '0')}m ${Math.floor(daySeconds % 3600 % 60).toString().padStart(2, '0')}s`;
-      
-      this.sectionInfo[0].objs.timerDay.innerText = days;
-      this.sectionInfo[0].objs.timerTime.innerText = time;
-
-      if(betweenSeconds <= 0 && !this.isBirthday){
-        clearInterval(this.mainTimerId);
-        this.setBirthday();
-        this.isBirthday = true;
-      }
+      } ,30);
+      loadCon.addEventListener('transitionend', ()=>{
+        loadCon.style.display = 'none';
+      });
+    }, 1000)
+  }
+  setLoaded(loadCon){
+    loadCon.classList.add('loaded');
+    this.stage.style.height = 'initial';
+    for(let i = 0; i < this.contentSection.length; i++){
+      this.contentSection[i].style.opacity = 1;
     }
 
-    animateFirecracker(){
-      requestAnimationFrame(this.animateFirecracker.bind(this));
-      this.ctx.clearRect(0, 0, this.stageWidth, this.sectionInfo[4].screenHeight);
-      // airship
-      for(let i = 0; i < this.airships.length; i++){
-        for(let cracker of this.crackers.values()){
-          if(cracker.isArrive){
-            this.airships[i].crash(cracker);
-          }
-        }
-        this.airships[i].draw(this.ctx);
-      }
+    // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
+    window.scrollTo(0, 1);
+    window.scrollTo(0, 0);
+  }
 
-      // firecracker
-      for(let cracker of this.crackers.values()){
-        cracker.draw(this.ctx);
-        if(cracker.isFinish && cracker.level < 0){
-          this.crackers.delete(cracker);
-        }
-        if(cracker.opacity <= 0){
-          this.crackers.delete(cracker);
-        }
-      }
+  calcAnimationValues(values, currentYOffset){
+    let value; // return value
+    let sectionHeight = this.sectionInfo[this.currentSection].screenHeight;
 
+    let partScrollStart = sectionHeight * values[2].start;
+    let partScrollEnd = sectionHeight * values[2].end;
+    let partScrollHeight = partScrollEnd - partScrollStart;
+    let sectionScrollRatio = currentYOffset - this.prevSectionHeight / sectionHeight;
+
+    if(sectionScrollRatio >= partScrollStart && sectionScrollRatio <= partScrollEnd){
+        value = (currentYOffset - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+    }else if(sectionScrollRatio < partScrollStart){
+        value = values[0];
+    }else if(sectionScrollRatio > partScrollEnd){
+        value = values[1];
     }
 
-    checkAirshipOut(){
-      for(let i = 0; i < this.airships.length; i++){
-        if(this.airships[i].direction === 1){
-          if(this.airships[i].x > this.stageWidth){
-            this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
-          }
+    return value;
+  }
+  playAnimation(){
+    let currentYOffset = this.currentY - this.prevSectionHeight;
+    let currentRatio = currentYOffset / this.sectionInfo[this.currentSection].screenHeight;
+    const objs = this.sectionInfo[this.currentSection].objs;
+    const values = this.sectionInfo[this.currentSection].values;
+
+    switch(this.currentSection){
+      case 0:
+        if(this.enteringSection){
+          this.typeText(objs.timerDay);
+          this.typeText(objs.timerTime);
+        }
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        // if((this.prevSectionHeight + (500 - (window.innerHeight - objs.cardImgCon.clientHeight) / 2)) < this.currentY){
+        //   objs.cardImgCon.classList.add('holding-elem');
+        // }else{
+        //   objs.cardImgCon.classList.remove('holding-elem');
+        // }
+        
+        if(currentRatio <= 0.16){
+          objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_in, currentYOffset);
+          objs.cardSubText1.style.opacity = this.calcAnimationValues(values.cardSubText1_opacity_in, currentYOffset);
+        }else if(currentRatio <= 0.49){
+          objs.cardText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
+          objs.cardText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_in, currentYOffset);
+          objs.cardSubText1.style.opacity = this.calcAnimationValues(values.cardText1_opacity_out, currentYOffset);
+          objs.cardSubText2.style.opacity = this.calcAnimationValues(values.cardSubText2_opacity_in, currentYOffset);
+        }else if(currentRatio <= 0.82){
+          objs.cardText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
+          objs.cardText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_in, currentYOffset);
+          objs.cardSubText2.style.opacity = this.calcAnimationValues(values.cardText2_opacity_out, currentYOffset);
+          objs.cardSubText3.style.opacity = this.calcAnimationValues(values.cardSubText3_opacity_in, currentYOffset);
         }else{
-          if(this.airships[i].x < 0){
-            this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+          objs.cardText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
+          objs.cardSubText3.style.opacity = this.calcAnimationValues(values.cardText3_opacity_out, currentYOffset);
+          objs.cardImgCon.style.opacity = this.calcAnimationValues(values.cardImgCon_opacity_out, currentYOffset);
+        }
+
+        if(currentRatio > 0.08 && currentRatio < 0.15){
+          objs.flipEffect.style.backgroundImage = `url("${this.data.card[0]}")`;
+          objs.flipEffect.classList.add('active');
+        }else if(currentRatio > 0.35 && currentRatio < 0.39){
+          objs.flipEffect.classList.remove('active');
+        }else if(currentRatio > 0.40 && currentRatio < 0.48){
+          objs.flipEffect.style.backgroundImage = `url("${this.data.card[1]}")`;
+          objs.flipEffect.classList.add('active');
+        }else if(currentRatio > 0.69 && currentRatio < 0.73){
+          objs.flipEffect.classList.remove('active');
+        }else if(currentRatio > 0.74 && currentRatio < 0.81){
+          objs.flipEffect.style.backgroundImage = `url("${this.data.card[2]}")`;
+          objs.flipEffect.classList.add('active');
+        }else if(currentRatio > 0.95 && currentRatio < 0.99){
+          objs.flipEffect.classList.remove('active');
+        }else{
+          objs.flipEffect.classList.remove('active');
+        }
+        break;
+      case 4:
+        if(this.enteringSection){
+
+          if(!this.hasEnterCanvas){
+            this.hasEnterCanvas = true;
+
+            requestAnimationFrame(this.animateFirecracker.bind(this));
           }
         }
-      }
+        break;
     }
+    // console.log(currentSection);
+  }
+  checkScroll(){ // scroll Loop
+    this.prevSectionHeight = 0;
+    this.currentY = window.pageYOffset;
+    this.enteringSection = true;
 
-    createGallery(){
-      const gallery = this.data.gallery;
-      for(let i = 0; i < gallery.length; i++){
-        const galleryItem = document.createElement('li');
-        const imgCon = document.createElement('figure');
-        const filter = document.createElement('div');
-        const img = document.createElement('img');
-        const tagCon = document.createElement('ul');
-
-        galleryItem.classList.add('gallery');
-        imgCon.classList.add('img-con');
-        tagCon.classList.add('tag-con');
-        filter.classList.add('filter');
-        img.src = gallery[i].src;
-
-        for(let j = 0; j < gallery[i].tag.length; j++){
-          const tag = document.createElement('li');
-          tag.classList.add('tag');
-          tag.innerHTML = `#${gallery[i].tag[j][0]}`;
-          tag.setAttribute('data-color', gallery[i].tag[j][1]);
-          tagCon.appendChild(tag);
+    for(let i = 0; i <= this.sectionInfo.length; i++){
+      if(this.currentY < this.prevSectionHeight + this.sectionInfo[i].screenHeight){
+        // console.log(currentSection, i);
+        if(this.currentSection === i){
+          this.enteringSection = false;
+        } else {
+          this.currentSection = i;
         }
-
-        imgCon.appendChild(filter);
-        imgCon.appendChild(img);
-        galleryItem.appendChild(imgCon);
-        galleryItem.appendChild(tagCon);
-        this.sectionInfo[2].objs.galleryCon.appendChild(galleryItem);
+        break;
       }
+      this.prevSectionHeight += this.sectionInfo[i].screenHeight;
     }
-    clickGalleryTag(e){
-      const target = e.target;
-      if(target.classList.contains('tag')){
-        target.parentNode.childNodes.forEach((tag)=>{
-          tag.classList.remove('selected');
-        })
-        target.classList.add('selected');
-        const filter = target.parentNode.previousSibling.querySelector('.filter');
-        filter.className = 'filter';
-        setTimeout(()=>{
-          filter.classList.add(target.getAttribute('data-color'));
-        }, 500);
+    // console.log(currentSection);
+    document.body.setAttribute('id', `visible-${this.currentSection}`);
+    
+    this.playAnimation();
+  }
+  typeText(textDOM){
+    const realText = textDOM.innerText.split(''); // 현재 시각 폼 받아오는 함수 만들어서 받아오기
+    let textCnt = 0;
+
+    const typeId = setInterval(()=>{
+      const junkText = [];
+      let junkChar;
+      for(let i = 0; i < textCnt; i++){
+        junkText.push(realText[i]);
       }
+      for(let i = textCnt; i < realText.length; i++){
+        junkChar = String.fromCharCode(Math.random() * 57 + 65);
+        junkText.push(junkChar);
+      }
+      textDOM.innerText = junkText.join('');
+    }, 80);
+
+    const cntId = setInterval(()=>{
+      textCnt++;
+      if(textCnt > realText.length){
+        clearInterval(typeId);
+        clearInterval(cntId);
+        // 타이머 시작
+        this.mainTimerId = setInterval(this.setMainTimer.bind(this), 1000);
+      }
+    }, 240);
+  }
+  typeContentText(){
+      if(this.contentTextCnt > this.contentTextArray.length) return;
+      let contentText = '';
+      for(let i = 0; i < this.contentTextCnt; i++){
+          contentText += this.contentTextArray[i];
+      }
+      this.sectionInfo[1].objs.textContent.innerText = contentText;
+      this.contentTextCnt++;
+  };
+  setMainTimer(){
+    const currentTime = new Date;
+    // const currentTime = new Date(2022, 2, 10);
+    const betweenSeconds = Math.floor((this.purposeTime.getTime() - currentTime.getTime()) / 1000);
+    const daySeconds = betweenSeconds % (3600 * 24);
+    
+    const days = `${Math.floor(betweenSeconds / 3600 / 24)} Days`;
+    const time = `${Math.floor(daySeconds / 3600).toString().padStart(2, '0')}h ${Math.floor(daySeconds % 3600 / 60).toString().padStart(2, '0')}m ${Math.floor(daySeconds % 3600 % 60).toString().padStart(2, '0')}s`;
+    
+    this.sectionInfo[0].objs.timerDay.innerText = days;
+    this.sectionInfo[0].objs.timerTime.innerText = time;
+
+    if(betweenSeconds <= 0 && !this.isBirthday){
+      clearInterval(this.mainTimerId);
+      this.setBirthday();
+      this.isBirthday = true;
     }
-    devideCardImage(){
-      const row = 4;
-      const column = 4;
-      const width = 100 / column;
-      const height = 100 / row;
-      const imgWidth = 100 * column;
-      const imgHeight = 100 * row;
-      const flipEffect = this.sectionInfo[3].objs.flipEffect;
+  }
 
-      let setStyle = `transform: translate(50px, 50px); opacity: 0;`;
-      let htmlStr = ``;
-      for(let i = 0; i < row; i++){
-        for(let j = 0; j < column; j++){
-          let top = -i * 100;
-          let left = -j * 100;
-          let delaySpeed = ((column - j) - (i * 0.5)) * 0.25;
-
-          htmlStr += `<div class="flip-item" style="${setStyle} width:${width}%; height:${height}%; transition-delay:${delaySpeed}s">`
-          htmlStr += `  <div class="flip-img" style="width:${imgWidth}%; height:${imgHeight}%; top:${top}%; left:${left}%;"></div>`;
-          htmlStr += `</div>`;
+  animateFirecracker(){
+    requestAnimationFrame(this.animateFirecracker.bind(this));
+    this.ctx.clearRect(0, 0, this.stageWidth, this.sectionInfo[4].screenHeight);
+    // airship
+    for(let i = 0; i < this.airships.length; i++){
+      for(let cracker of this.crackers.values()){
+        if(cracker.isArrive){
+          this.airships[i].crash(cracker);
         }
       }
-      flipEffect.innerHTML = htmlStr;
+      this.airships[i].draw(this.ctx);
     }
-    loadImages(){
-      const gallery = this.data.gallery;
-      const card = this.data.card;
-      for(let i = 0; i < gallery.length; i++){
-        const image = new Image();
-        image.src = gallery[i]['src'];
-        this.images[0][i] = image;
+
+    // firecracker
+    for(let cracker of this.crackers.values()){
+      cracker.draw(this.ctx);
+      if(cracker.isFinish && cracker.level < 0){
+        this.crackers.delete(cracker);
       }
-      for(let i = 0; i < card.length; i++){
-        const image = new Image();
-        image.src = card[i]
-        this.images[1][i] = image;
+      if(cracker.opacity <= 0){
+        this.crackers.delete(cracker);
       }
     }
-    setProgress(){
-      const loadCon = document.querySelector('.load-con')
-      const progress = document.querySelector('.load-progress');
-      const ratio = document.querySelector('.load-ratio span');
-      let progressRatio = 0;
+
+  }
+
+  checkAirshipOut(){
+    for(let i = 0; i < this.airships.length; i++){
+      if(this.airships[i].direction === 1){
+        if(this.airships[i].x > this.stageWidth){
+          this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+        }
+      }else{
+        if(this.airships[i].x < 0){
+          this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+        }
+      }
+    }
+  }
+
+  createGallery(){
+    const gallery = this.data.gallery;
+    for(let i = 0; i < gallery.length; i++){
+      const galleryItem = document.createElement('li');
+      const imgCon = document.createElement('figure');
+      const filter = document.createElement('div');
+      const img = document.createElement('img');
+      const tagCon = document.createElement('ul');
+
+      galleryItem.classList.add('gallery');
+      imgCon.classList.add('img-con');
+      tagCon.classList.add('tag-con');
+      filter.classList.add('filter');
+      img.src = gallery[i].src;
+
+      for(let j = 0; j < gallery[i].tag.length; j++){
+        const tag = document.createElement('li');
+        tag.classList.add('tag');
+        tag.innerHTML = `#${gallery[i].tag[j][0]}`;
+        tag.setAttribute('data-color', gallery[i].tag[j][1]);
+        tagCon.appendChild(tag);
+      }
+
+      imgCon.appendChild(filter);
+      imgCon.appendChild(img);
+      galleryItem.appendChild(imgCon);
+      galleryItem.appendChild(tagCon);
+      this.sectionInfo[2].objs.galleryCon.appendChild(galleryItem);
+    }
+  }
+  clickGalleryTag(e){
+    const target = e.target;
+    if(target.classList.contains('tag')){
+      target.parentNode.childNodes.forEach((tag)=>{
+        tag.classList.remove('selected');
+      })
+      target.classList.add('selected');
+      const filter = target.parentNode.previousSibling.querySelector('.filter');
+      filter.className = 'filter';
       setTimeout(()=>{
-        const progressIntId = setInterval(()=>{
-          progress.style.height = `${100 - progressRatio++}%`;
-          ratio.innerHTML = progressRatio;
-          if(progressRatio >= 100){
-            clearInterval(progressIntId);
-            setTimeout(this.setLoaded.bind(this, loadCon), 1000);
-          }
-        } ,30);
-        loadCon.addEventListener('transitionend', ()=>{
-          loadCon.style.display = 'none';
-        });
-      }, 1000)
+        filter.classList.add(target.getAttribute('data-color'));
+      }, 500);
     }
-    setLoaded(loadCon){
-      loadCon.classList.add('loaded');
-      this.stage.style.height = 'initial';
-      for(let i = 0; i < this.contentSection.length; i++){
-        this.contentSection[i].style.opacity = 1;
-      }
+  }
+  devideCardImage(){
+    const row = 4;
+    const column = 4;
+    const width = 100 / column;
+    const height = 100 / row;
+    const imgWidth = 100 * column;
+    const imgHeight = 100 * row;
+    const flipEffect = this.sectionInfo[3].objs.flipEffect;
 
-      // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
-      window.scrollTo(0, 1);
-      window.scrollTo(0, 0);
-    }
-    createAirship(){
-      // airship 객체 생성
-      for(let i = 0; i < 3; i++){
-        this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
+    let setStyle = `transform: translate(50px, 50px); opacity: 0;`;
+    let htmlStr = ``;
+    for(let i = 0; i < row; i++){
+      for(let j = 0; j < column; j++){
+        let top = -i * 100;
+        let left = -j * 100;
+        let delaySpeed = ((column - j) - (i * 0.5)) * 0.25;
+
+        htmlStr += `<div class="flip-item" style="${setStyle} width:${width}%; height:${height}%; transition-delay:${delaySpeed}s">`
+        htmlStr += `  <div class="flip-img" style="width:${imgWidth}%; height:${imgHeight}%; top:${top}%; left:${left}%;"></div>`;
+        htmlStr += `</div>`;
       }
     }
-    setBirthday(){
-      this.stage.style.display = 'none';
-      this.cursorPoint.classList.add('black');
-      this.cursorAura.classList.add('border-black');
-      
-      const birthday = new Birthday();
-      
-      setInterval(()=>{
-        birthday.updateProgress();
-      }, 1000);
+    flipEffect.innerHTML = htmlStr;
+  }
+  createAirship(){
+    // airship 객체 생성
+    for(let i = 0; i < 3; i++){
+      this.airships[i] = new Airship(this.stageWidth, this.sectionInfo[4].screenHeight, i);
     }
+  }
+  setBirthday(){
+    this.stage.style.display = 'none';
+    this.cursorPoint.classList.add('black');
+    this.cursorAura.classList.add('border-black');
+    
+    const birthday = new Birthday();
+    
+    setInterval(()=>{
+      birthday.updateProgress();
+    }, 1000);
+  }
+  createCracker(e){
+    this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+    this.checkAirshipOut();
+  }
 }
 
 window.onload = () => {
