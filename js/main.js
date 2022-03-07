@@ -111,7 +111,6 @@ class App{
     this.createAirship();
 
 
-
     window.addEventListener('scroll', ()=>{
       this.checkScroll();
     });
@@ -130,9 +129,11 @@ class App{
     //events
     this.sectionInfo[1].objs.textAuto.addEventListener('click', ()=>{
       // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
+      let cnt = 0;
       const autoId = setInterval(()=>{
         this.typeContentText(this.sectionInfo[1].objs.textContent);
-        if(this.currentSection !== 1){
+        cnt++;
+        if(cnt > this.contentTextArray.length){
           clearInterval(autoId);
         }
       }, 30);
@@ -198,10 +199,6 @@ class App{
           }
           break;
         case 1:
-          if(this.enteringSection && !this.showContentText){
-            // typeText(sectionInfo[1].objs.textContent, true, 20);
-            this.showContentText = true;
-          }
           break;
         case 2:
           break;
