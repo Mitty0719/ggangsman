@@ -11,6 +11,7 @@ class App{
     this.cursorAura = document.querySelector('.cursor .aura');
     this.canvas = document.querySelector('.firecracker-canvas');
     this.ctx = this.canvas.getContext('2d');
+    this.contentSection = document.querySelectorAll('.content-section');
     this.sectionInfo = [
       {
         sectionNum: 0,
@@ -143,9 +144,8 @@ class App{
 
   setLayout(){
     this.stageWidth = document.body.clientWidth;
-    let screenRatio = document.body.clientHeight / document.body.clientWidth;
+    let screenRatio = window.innerHeight / window.innerWidth;
     
-    const contentSection = document.querySelectorAll('.content-section');
     const loadCon = document.querySelector('.load-con');
     for(let i = 0; i < this.sectionInfo.length; i++){
       if(i === 2){
@@ -153,7 +153,7 @@ class App{
       }else{
         this.sectionInfo[i].screenHeight = window.innerHeight * this.sectionInfo[i].screenRatio;
       }
-      contentSection[i].style.height = `${this.sectionInfo[i].screenHeight}px`;
+      this.contentSection[i].style.height = `${this.sectionInfo[i].screenHeight}px`;
     }
     loadCon.style.width = `${this.stageWidth}px`;
     loadCon.style.height = `${this.sectionInfo[0].screenHeight}px`;
@@ -470,19 +470,24 @@ class App{
           ratio.innerHTML = progressRatio;
           if(progressRatio >= 100){
             clearInterval(progressIntId);
-            setTimeout(()=>{
-              loadCon.classList.add('loaded');
-              this.stage.style.height = 'initial';
-              // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
-              window.scrollTo(0, 1);
-              window.scrollTo(0, 0);
-          }, 1000);
+            setTimeout(this.setLoaded.bind(this, loadCon), 1000);
           }
         } ,30);
         loadCon.addEventListener('transitionend', ()=>{
           loadCon.style.display = 'none';
         });
       }, 1000)
+    }
+    setLoaded(loadCon){
+      loadCon.classList.add('loaded');
+      this.stage.style.height = 'initial';
+      for(let i = 0; i < this.contentSection.length; i++){
+        this.contentSection[i].style.opacity = 1;
+      }
+
+      // 초기 화면 타이핑 이벤트 동작을 위한 임의 스크롤
+      window.scrollTo(0, 1);
+      window.scrollTo(0, 0);
     }
     createAirship(){
       // airship 객체 생성
