@@ -111,6 +111,7 @@ class App{
     this.createAirship();
 
 
+    //events
     window.addEventListener('scroll', ()=>{
       this.checkScroll();
     });
@@ -122,11 +123,15 @@ class App{
         this.typeContentText(this.sectionInfo[1].objs.textContent);
       }
     });
+    window.addEventListener('touchend', ()=>{
+      if(this.currentSection === 1){
+        this.typeContentText(this.sectionInfo[1].objs.textContent);
+      }
+    });
     window.addEventListener('mousemove', (e)=>{
       this.cursor.style.top = `${e.clientY}px`;
       this.cursor.style.left = `${e.clientX}px`;
     });
-    //events
     this.sectionInfo[1].objs.textAuto.addEventListener('click', ()=>{
       // document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'z'}));
       let cnt = 0;
@@ -140,8 +145,10 @@ class App{
     });
     this.sectionInfo[2].objs.galleryCon.addEventListener('click', this.clickGalleryTag.bind(this));
     document.addEventListener('click', (e)=>{
-      this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
-      this.checkAirshipOut();
+      if(this.currentSection === 4){
+        this.crackers.add(new Firecracker(e.clientX, this.sectionInfo[4].screenHeight));
+        this.checkAirshipOut();
+      }
     });
   }
 
@@ -231,17 +238,17 @@ class App{
           if(currentRatio > 0.08 && currentRatio < 0.15){
             objs.flipEffect.style.backgroundImage = `url("${this.data.card[0]}")`;
             objs.flipEffect.classList.add('active');
-          }else if(currentRatio > 0.24 && currentRatio < 0.33){
+          }else if(currentRatio > 0.35 && currentRatio < 0.39){
             objs.flipEffect.classList.remove('active');
           }else if(currentRatio > 0.40 && currentRatio < 0.48){
             objs.flipEffect.style.backgroundImage = `url("${this.data.card[1]}")`;
             objs.flipEffect.classList.add('active');
-          }else if(currentRatio > 0.58 && currentRatio < 0.66){
+          }else if(currentRatio > 0.69 && currentRatio < 0.73){
             objs.flipEffect.classList.remove('active');
           }else if(currentRatio > 0.74 && currentRatio < 0.81){
             objs.flipEffect.style.backgroundImage = `url("${this.data.card[2]}")`;
             objs.flipEffect.classList.add('active');
-          }else if(currentRatio > 0.91 && currentRatio < 0.99){
+          }else if(currentRatio > 0.95 && currentRatio < 0.99){
             objs.flipEffect.classList.remove('active');
           }else{
             objs.flipEffect.classList.remove('active');
