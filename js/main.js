@@ -1,10 +1,12 @@
 import { Airship } from './module/airship.js';
 import { Firecracker } from './module/firecracker.js';
-import Data from '../src/data.json' assert { type: 'json' };
+// import Data from '../src/data.json' assert { type: 'json' };
+// import Data from '../src/data.json';
 import { Birthday } from './module/birthday.js';
 
 class App{
-  constructor(){
+  constructor(jsonData){
+    this.data = jsonData;
     this.stage = document.querySelector('.stage');
     this.cursor = document.querySelector('.cursor');
     this.cursorPoint = document.querySelector('.cursor .point')
@@ -92,7 +94,7 @@ class App{
     this.prevSectionHeight = 0; // 이전 section 높이 합
     this.enteringSection = true; // section 진입 여부
     this.showContentText = false; // textSection content 표시여부
-    this.contentTextArray = Data.text.split('');
+    this.contentTextArray = this.data.text.split('');
     this.contentTextCnt = 0;
     this.purposeTime = new Date(2022, 2, 10, 0);
     this.images = [[],[]];
@@ -230,17 +232,17 @@ class App{
           }
 
           if(currentRatio > 0.08 && currentRatio < 0.15){
-            objs.flipEffect.style.backgroundImage = `url("${Data.card[0]}")`;
+            objs.flipEffect.style.backgroundImage = `url("${this.data.card[0]}")`;
             objs.flipEffect.classList.add('active');
           }else if(currentRatio > 0.24 && currentRatio < 0.33){
             objs.flipEffect.classList.remove('active');
           }else if(currentRatio > 0.40 && currentRatio < 0.48){
-            objs.flipEffect.style.backgroundImage = `url("${Data.card[1]}")`;
+            objs.flipEffect.style.backgroundImage = `url("${this.data.card[1]}")`;
             objs.flipEffect.classList.add('active');
           }else if(currentRatio > 0.58 && currentRatio < 0.66){
             objs.flipEffect.classList.remove('active');
           }else if(currentRatio > 0.74 && currentRatio < 0.81){
-            objs.flipEffect.style.backgroundImage = `url("${Data.card[2]}")`;
+            objs.flipEffect.style.backgroundImage = `url("${this.data.card[2]}")`;
             objs.flipEffect.classList.add('active');
           }else if(currentRatio > 0.91 && currentRatio < 0.99){
             objs.flipEffect.classList.remove('active');
@@ -379,7 +381,7 @@ class App{
     }
 
     createGallery(){
-      const gallery = Data.gallery;
+      const gallery = this.data.gallery;
       for(let i = 0; i < gallery.length; i++){
         const galleryItem = document.createElement('li');
         const imgCon = document.createElement('figure');
@@ -447,8 +449,8 @@ class App{
       flipEffect.innerHTML = htmlStr;
     }
     loadImages(){
-      const gallery = Data.gallery;
-      const card = Data.card;
+      const gallery = this.data.gallery;
+      const card = this.data.card;
       for(let i = 0; i < gallery.length; i++){
         const image = new Image();
         image.src = gallery[i]['src'];
@@ -510,5 +512,12 @@ class App{
 }
 
 window.onload = () => {
-  new App();
+  fetch('../src/data.json')
+  .then(response => {
+    return response.json();
+  })
+  .then(jsonData => {
+    new App(jsonData);
+  });
+  // .finally(()=> new App(data));
 }
